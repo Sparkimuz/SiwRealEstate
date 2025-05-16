@@ -18,6 +18,7 @@ public class RealEstateAgency {
 	List<Agent> agents;
 	
 	private String address;
+	
 	private String city;
 	
 	public Long getId() {
