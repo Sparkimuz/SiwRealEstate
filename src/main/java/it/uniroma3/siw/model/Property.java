@@ -11,11 +11,17 @@ public class Property {
 	private Long id;
 	
 	private String address;
+	
 	private String city;
+	
 	private double price;
+	
 	private int size;
+	
 	private String type;
+	
 	private String urlImage;
+	
 	
 	public Long getId() {
 		return id;

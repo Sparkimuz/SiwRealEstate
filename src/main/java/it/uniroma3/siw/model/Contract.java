@@ -1,6 +1,7 @@
 package it.uniroma3.siw.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.FetchType;
@@ -21,6 +22,9 @@ public class Contract {
 	
 	@ManyToOne(cascade = CascadeType.DETACH)
 	public Client client;
+	
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	List<Agent> agents;
 	
 	private LocalDate date;
 	
