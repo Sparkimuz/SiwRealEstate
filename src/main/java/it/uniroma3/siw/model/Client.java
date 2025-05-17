@@ -22,7 +22,7 @@ public class Client {
 	
 	private String surname;
 	
-	private LocalDate birthDate;
+	private LocalDate birthdate;
 
 	public Long getId() {
 		return id;
@@ -56,11 +56,11 @@ public class Client {
 		this.surname = surname;
 	}
 
-	public LocalDate getBirthDate() {
-		return birthDate;
+	public LocalDate getBirthdate() {
+		return birthdate;
 	}
 
-	public void setBirthDate(LocalDate birthDate) {
-		this.birthDate = birthDate;
+	public void setBirthdate(LocalDate birthdate) {
+		this.birthdate = birthdate;
 	}
 }
