@@ -11,5 +11,7 @@ public interface PropertyRepository extends CrudRepository<Property, Long>{
 		
 	public Property findByCity(String city);
 	public Property findByType(String type);
+	public boolean existsByAddressAndCity(String address, String city);
+	public Property findByAddressAndCity(String address, String city);
 
 }
