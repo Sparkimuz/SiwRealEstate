@@ -15,7 +15,7 @@ public class Client {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToMany(mappedBy = "contract", cascade = CascadeType.DETACH)
+	@OneToMany(mappedBy = "client", cascade = CascadeType.DETACH)
 	public List<Contract> contracts;
 	
 	private String name;

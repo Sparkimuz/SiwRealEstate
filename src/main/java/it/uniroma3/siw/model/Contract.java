@@ -17,8 +17,8 @@ public class Contract {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
-	private Property property;
+	@ManyToOne(cascade = CascadeType.REMOVE)
+	public Property property;
 	
 	@ManyToOne(cascade = CascadeType.DETACH)
 	public Client client;
@@ -26,7 +26,9 @@ public class Contract {
 	@ManyToOne(cascade = CascadeType.REMOVE)
 	List<Agent> agents;
 	
-	private LocalDate date;
+	private LocalDate startDate;
+	
+	private LocalDate finalDate;
 	
 	private double finalPrice;
 
@@ -46,19 +48,27 @@ public class Contract {
 		this.property = property;
 	}
 
-	public LocalDate getDate() {
-		return date;
-	}
-
-	public void setDate(LocalDate date) {
-		this.date = date;
-	}
-
 	public double getFinalPrice() {
 		return finalPrice;
 	}
 
 	public void setFinalPrice(double finalPrice) {
 		this.finalPrice = finalPrice;
+	}
+
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getFinalDate() {
+		return finalDate;
+	}
+
+	public void setFinalDate(LocalDate finalDate) {
+		this.finalDate = finalDate;
 	}
 }
