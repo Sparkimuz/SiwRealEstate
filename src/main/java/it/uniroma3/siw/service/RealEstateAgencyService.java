@@ -12,13 +12,11 @@ import it.uniroma3.siw.repository.RealEstateAgencyRepository;
 public class RealEstateAgencyService {
 
 	@Autowired
-    private RealEstateAgencyRepository realEstateAgencyRepository;
+	private RealEstateAgencyRepository realEstateAgencyRepository;
 
-    public RealEstateAgency findByCity(String city) {
-        return realEstateAgencyRepository.findByCity(city);
-    }
+	public RealEstateAgency findByCity(String city) {
+		return realEstateAgencyRepository.findByCity(city);
+	}
 
-    public List<RealEstateAgency> searchByName(String name) {
-        return realEstateAgencyRepository.findRealEstateAgencies(name);
-    }
 }
+

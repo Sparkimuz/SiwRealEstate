@@ -19,14 +19,14 @@ public class Contract {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne(fetch = FetchType.LAZY)
 	public Property property;
 	
-	@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.LAZY)
 	public Client client;
 	
-	@ManyToOne(cascade = CascadeType.REMOVE)
-	List<Agent> agents;
+	@ManyToOne(fetch = FetchType.LAZY)
+	public Agent agent;
 	
 	private LocalDate startDate;
 	

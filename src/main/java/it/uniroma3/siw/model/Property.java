@@ -17,7 +17,7 @@ public class Property {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToMany(mappedBy = "contract", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "property", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	List<Contract> contracts;
 	
 	private String address;
