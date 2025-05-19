@@ -1,14 +1,19 @@
 package it.uniroma3.siw.model;
 
+<<<<<<< Updated upstream
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.FetchType;
+=======
+import jakarta.persistence.Entity;
+>>>>>>> Stashed changes
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
+@Entity
 public class Property {
 	
 	@Id
