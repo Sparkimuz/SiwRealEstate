@@ -42,6 +42,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		
+		<dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-starter-security</artifactId>
+    	</dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -52,11 +57,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>it.uniroma3</groupId>
-			<artifactId>siw-concessionario</artifactId>
-			<version>1.0</version>
 		</dependency>
 	</dependencies>
 
