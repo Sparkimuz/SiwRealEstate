@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenti – SIW Real Estate</title>
+
+    <!-- Bootstrap & stile custom -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+
+<!-- ===== barra in alto con pulsante “home” ===== -->
+<section class="bg-light py-3">
+    <div class="container">
+        <a th:href="@{/index}" class="btn btn-outline-secondary d-inline-flex align-items-center">
+            <img th:src="@{/images/home.svg}" alt="Home" width="24" height="24" class="me-2">
+            Home
+        </a>
+    </div>
+</section>
+
+<!-- ===== elenco agenti ===== -->
+<section class="container py-5">
+
+    <h2 class="mb-4">I nostri agenti</h2>
+
+    <!-- caso: nessun agente -->
+    <div th:if="${#lists.isEmpty(agents)}" class="alert alert-info">
+        Non sono ancora stati inseriti agenti.
+    </div>
+
+    <!-- lista agenti -->
+    <div th:each="agent : ${agents}" class="row g-0 mb-4 shadow-sm rounded overflow-hidden">
+
+        <!-- foto profilo -->
+        <div class="col-md-3">
+            <img th:if="${agent.urlImage != null}"
+                 th:src="${agent.urlImage}"
+                 class="img-fluid h-100 w-100 object-fit-cover" alt="Foto agente">
+            <img th:if="${agent.urlImage == null}"
+                 th:src="@{/images/agent-placeholder.jpg}"
+                 class="img-fluid h-100 w-100 object-fit-cover" alt="Foto agente">
+        </div>
+
+        <!-- dati -->
+        <div class="col-md-9 p-4 d-flex flex-column">
+            <h4 th:text="${agent.name} + ' ' + ${agent.surname}">Nome Cognome</h4>
+            <p class="mb-2">
+                <strong>Data di nascita:</strong>
+                <span th:text="${#temporals.format(agent.birthdate, 'dd/MM/yyyy')}">01/01/1980</span><br>
+                <strong>Sede:</strong>
+                <span th:text="${agent.realEstateAgency != null ? agent.realEstateAgency.city : '—'}">Roma</span>
+            </p>
+
+            <!-- bottone dettagli -->
+            <div class="mt-auto">
+                <a th:href="@{/agent/{id}(id=${agent.id})}"
+                   class="btn btn-outline-primary">Vedi profilo</a>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
