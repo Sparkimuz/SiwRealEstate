@@ -1,0 +1,245 @@
+package it.uniroma3.siw.controller;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import it.uniroma3.siw.model.Agent;
+import it.uniroma3.siw.model.Contract;
+import it.uniroma3.siw.model.Credentials;
+import it.uniroma3.siw.model.Property;
+import it.uniroma3.siw.model.User;
+import it.uniroma3.siw.repository.PropertyRepository;
+import it.uniroma3.siw.service.AgentService;
+import it.uniroma3.siw.service.ContractService;
+import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.PropertyService;
+import it.uniroma3.siw.validator.PropertyValidator;
+import jakarta.persistence.EntityManager;
+import jakarta.validation.Valid;
+
+@Controller
+public class PropertyController {
+
+
+	private static final String UPLOAD_DIR= "C:\\Users\\39345\\Documents\\Concessionario-Siw\\SiwConcessionario\\src\\main\\resources\\static\\images";
+
+
+	@Autowired
+	PropertyService propertyService;
+
+	@Autowired
+	AgentService agentService;
+
+	@Autowired
+	PropertyRepository propertyRepository;
+
+	@Autowired
+	ContractService contractService;
+
+	@Autowired
+	GlobalController gc;
+
+	@Autowired
+	CredentialsService credentialsService;
+
+	@Autowired
+	PropertyValidator propertyValidator;
+
+	@Autowired
+	EntityManager entityManager;
+
+
+	@GetMapping(value = "/property/{id}")
+	public String getProperty(@PathVariable("id") Long id, Model model) {
+		Property p = this.propertyService.findById(id);
+		UserDetails u = gc.getUser();
+		if(u!=null) {
+			String username = u.getUsername();
+			Credentials credenziali = this.credentialsService.getCredentials(username);
+			User user = credenziali.getUser();
+			model.addAttribute("user", user);
+			Agent agent=user.getAgent();
+			boolean sold=false;
+			for(Contract c: agent.contracts) {
+				if(c.property.getId()==c.getId()) {
+					sold=true;
+					break;
+				}
+			}
+			model.addAttribute("sold", sold);
+		}
+
+		model.addAttribute("property", p);
+		return "property.html";
+	}
+
+	@GetMapping(value = "/property")
+	public String showProperties(Model model) {
+		model.addAttribute("properties", this.propertyService.findAll());
+		return "properties.html";
+	}
+
+	@GetMapping(value = "/formSearchProperty")
+	public String formSearchProperty() {
+		return "formSearchProperty.html";
+	}
+
+	/*@PostMapping(value = "/formSearchProperty")
+	public String getPropertyByCity(@RequestParam String city, Model model) {
+		List<Property> properties =this.propertyRepository.findByCity(city);
+		model.addAttribute("property", properties);
+		return "property.html";
+	}*/
+
+	/*In questo caso modifica solo le proprietà da lui inserite*/
+	@GetMapping(value = "/agent/manageProperties")
+	public String manageProperties(Model model) {
+		UserDetails u = gc.getUser();
+		String username = u.getUsername();
+		Credentials credenziali = this.credentialsService.getCredentials(username);
+		User currentUser = credenziali.getUser();
+		Agent currentAgent = currentUser.getAgent();
+		model.addAttribute("properties", currentAgent.getProperties());
+		return "supplier/manageProperties.html";
+	}
+
+	@GetMapping(value = "/agent/addProperty")
+	public String formNewProperty(Model model) {
+		Property property = new Property();
+		model.addAttribute("property", property);
+		return "supplier/addProperty.html";
+	}
+
+	@GetMapping("/deleteProperty/{id}")
+	public String deleteProperty(@PathVariable("id") Long id, Model model) {
+		this.propertyService.deleteById(id);
+		model.addAttribute("properties", this.propertyService.findAll());
+		return "properties.html";
+	}
+
+	@PostMapping(value = "/property")
+	public String newProperty(@Valid @ModelAttribute("property") Property property,
+			@RequestParam("immagine") MultipartFile file,
+			BindingResult propertyBindingResult, Model model) {
+		UserDetails u = gc.getUser();
+		String username = u.getUsername();
+		Credentials credentials = this.credentialsService.getCredentials(username);
+		User currentUser = credentials.getUser();
+		Agent agent = currentUser.getAgent();
+
+		property.setAgent(agent);  // collega agente loggato
+		property.setContracts(new ArrayList<>());  // se usi esplicitamente i contratti
+
+		this.propertyValidator.validate(property, propertyBindingResult);
+		if (!propertyBindingResult.hasErrors()) {
+			if (!file.isEmpty()) {
+				try {
+					String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+					Path path = Paths.get(UPLOAD_DIR + File.separator + fileName);
+					Files.write(path, file.getBytes());
+					property.setUrlImage(fileName);
+
+					agent.getProperties().add(property);  // aggiorna proprietà lato agente
+					this.propertyService.save(property);
+
+					model.addAttribute("property", property);
+					return "redirect:/property/" + property.getId();
+
+				} catch (IOException e) {
+					e.printStackTrace();
+					return "formNewProperty.html";
+				}
+			}
+		}
+
+		if (credentials.getRole().equals("AGENT"))
+			return "/agent/formNewProperty.html";
+		else
+			return "/admin/formNewProperty.html";
+	}
+
+	@GetMapping(value = "/admin/addProperty")
+	public String AdminFormNewProperty(Model model) {
+		Property property = new Property();
+		model.addAttribute("property", property);
+		return "admin/addProperty.html";
+	}
+
+	@GetMapping(value = "admin/manageProperties")
+	public String AdminManageProperties(Model model) {
+		model.addAttribute("properties", this.propertyService.findAll());
+		return "admin/manageProperties.html";
+	}
+
+	@GetMapping("admin/removeProperty/{id}")
+	public String AdminRemoveProperty(@PathVariable("id") Long id, Model model) {
+		this.propertyService.deleteById(id);
+		model.addAttribute("properties", this.propertyService.findAll());
+		return "redirect:/admin/manageProperties";
+	}
+
+	@GetMapping("/admin/addPropertyToAgent/{idAgent}")
+	public String addPropertyToAgent(@PathVariable("idAgent") Long idAgent, Model model) {
+		Agent agent = this.agentService.findById(idAgent);
+		model.addAttribute("agent", agent);
+
+		Property property = new Property();
+		model.addAttribute("property", property);
+
+		return "admin/addPropertyToAgent.html";
+	}
+
+	@PostMapping("/admin/addPropertyToAgent")
+	public String setPropertyToAgent(@Valid @ModelAttribute("property") Property property,
+	                                 BindingResult bindingResult,
+	                                 @RequestParam("agentId") Long agentId,
+	                                 @RequestParam("immagine") MultipartFile file) {
+	    Agent agent = this.agentService.findById(agentId);
+	    property.setAgent(agent);
+	    property.setContracts(new ArrayList<>());
+
+	    this.propertyValidator.validate(property, bindingResult);
+	    if (!bindingResult.hasErrors()) {
+	        if (!file.isEmpty()) {
+	            try {
+	                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+	                Path path = Paths.get(UPLOAD_DIR + File.separator + fileName);
+	                Files.write(path, file.getBytes());
+
+	                property.setUrlImage(fileName);
+	                agent.getProperties().add(property);
+	                this.propertyService.save(property);
+
+	                return "redirect:/property/" + property.getId();
+
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	                return "redirect:/admin/addPropertyToAgent/" + agent.getId();
+	            }
+	        }
+	    }
+
+	    return "redirect:/admin/addPropertyToAgent/" + agent.getId();
+	}
+
+
+
+}

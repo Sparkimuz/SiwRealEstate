@@ -21,11 +21,15 @@ public class Agent {
 		private Long id;
 
 		@OneToMany(mappedBy = "agent", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+		public
 		List<Contract> contracts;
 
 		@ManyToOne
 		private RealEstateAgency realEstateAgency;
 
+		@OneToMany(mappedBy = "agent", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+		private List<Property> properties;
+		
 		private String name;
 		
 		private String surname;
@@ -70,4 +74,12 @@ public class Agent {
 		public void setUrlImage(String urlImage) {
 			this.urlImage = urlImage;
 		}
+		public List<Property> getProperties() {
+			return properties;
+		}
+
+		public void setProperties(List<Property> properties) {
+			this.properties = properties;
+		}
+
 }

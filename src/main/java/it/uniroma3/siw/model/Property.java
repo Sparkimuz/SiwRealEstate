@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -18,26 +19,34 @@ public class Property {
 	private Long id;
 	
 	@OneToMany(mappedBy = "property", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-	List<Contract> contracts;
+	private List<Contract> contracts;
+
+	@ManyToOne
+	private Agent agent; // agente che ha inserito la proprietà
 	
 	private String address;
-	
 	private String city;
-	
 	private double price;
-	
 	private int size;
-	
 	private String type;
-	
 	private String urlImage;
-	
-	
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public List<Contract> getContracts() {
+		return contracts;
+	}
+	public void setContracts(List<Contract> contracts) {
+		this.contracts = contracts;
+	}
+	public Agent getAgent() {
+		return agent;
+	}
+	public void setAgent(Agent agent) {
+		this.agent = agent;
 	}
 	public String getAddress() {
 		return address;
@@ -75,4 +84,5 @@ public class Property {
 	public void setUrlImage(String urlImage) {
 		this.urlImage = urlImage;
 	}
+	
 }

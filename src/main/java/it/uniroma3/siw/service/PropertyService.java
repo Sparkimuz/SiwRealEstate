@@ -1,8 +1,11 @@
 package it.uniroma3.siw.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.uniroma3.siw.model.Agent;
 import it.uniroma3.siw.model.Property;
 import it.uniroma3.siw.repository.PropertyRepository;
 
@@ -27,8 +30,16 @@ public class PropertyService {
 	public void delete(Property p) {
 		propertyRepository.delete(p);
 	}
+	
+	public void deleteById(Long id) {
+		propertyRepository.deleteById(id);
+	}
 
-	/*public Property findByModello(String modello) {
-		return propertyRepository.findByModello(modello);
-	}*/
+	public Property findByCity(String city) {
+		return propertyRepository.findByCity(city);
+	}
+	
+	public List<Property> findByAgent(Agent agent) {
+	    return this.propertyRepository.findByAgent(agent);
+	}
 }

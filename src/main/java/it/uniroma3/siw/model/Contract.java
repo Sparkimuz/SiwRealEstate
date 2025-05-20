@@ -73,4 +73,22 @@ public class Contract {
 	public void setFinalDate(LocalDate finalDate) {
 		this.finalDate = finalDate;
 	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public Agent getAgent() {
+		return agent;
+	}
+
+	public void setAgent(Agent agent) {
+		this.agent = agent;
+	}
+	
+	
 }

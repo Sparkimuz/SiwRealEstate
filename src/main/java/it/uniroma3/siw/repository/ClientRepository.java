@@ -20,4 +20,6 @@ public interface ClientRepository extends CrudRepository<Client, Long> {
 	@Query("SELECT a FROM Agent a WHERE LOWER(a.name) LIKE LOWER(CONCAT('%', :name, '%'))")
 	public List<Client> findAgents(String name);
 
+	public List<Client> findByNameContainingIgnoreCase(String name);
+
 }
