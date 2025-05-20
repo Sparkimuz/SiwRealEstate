@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.model.Agent;
 import it.uniroma3.siw.model.Contract;
 import it.uniroma3.siw.repository.ContractRepository;
 
+@Service
 public class ContractService {
 
 	public boolean existsSameContract(Long id, LocalDate startDate, LocalDate finalDate) {

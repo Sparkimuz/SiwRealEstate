@@ -62,7 +62,12 @@ public class AuthenticationController {
 	public String showLoginForm (Model model) {
 		return "login.html";
 	}
-
+	
+	@GetMapping("/index")
+	public String legacyHome() {
+	    return "redirect:/";
+	}
+	
 	@GetMapping(value = "/") 
 	public String index(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

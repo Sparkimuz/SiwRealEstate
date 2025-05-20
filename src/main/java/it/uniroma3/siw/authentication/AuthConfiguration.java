@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -41,14 +42,13 @@ public class AuthConfiguration {
 
     /* ---------- Bean di supporto ---------- */
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() {
         // 12 è un buon compromesso tra sicurezza e prestazioni
         return new BCryptPasswordEncoder(12);
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration configuration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
 
@@ -57,50 +57,18 @@ public class AuthConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-            /* CSRF abilitato solo su form protetti – per le API/ricerche rest disabled */
-            .csrf(csrf -> csrf.disable())
+            /* Niente CSRF (facoltativo, ma di solito lo disattivi se non usi form protetti) */
+            .csrf(AbstractHttpConfigurer::disable)
+
+            /*  PERMETTE TUTTO  */
             .authorizeHttpRequests(auth -> auth
-
-                /* ---- risorse pubbliche (GET) ---- */
-                .requestMatchers(HttpMethod.GET,
-                        "/", "/index", "/login", "/register",
-                        "/css/**", "/js/**", "/images/**", "/webjars/**", "/favicon.ico",
-                        /* ricerca e listing pubblici */
-                        "/property/**",             // lista e dettaglio immobili
-                        "/agent/all",               // lista agenti
-                        "/property/search",         // form ricerca proprietà
-                        "/realEstateAgency/**"      // contatti / sede
-                ).permitAll()
-
-                /* ---- richieste pubbliche (POST) ---- */
-                .requestMatchers(HttpMethod.POST,
-                        "/login", "/register", "/property/search"
-                ).permitAll()
-
-                /* ---- aree riservate ---- */
-                .requestMatchers("/admin/**").hasAuthority(ADMIN_ROLE)
-                .requestMatchers("/agent/**").hasAuthority(AGENT_ROLE)
-                /* qualunque altra rotta richiede login */
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             )
 
-            /* ---- form-login ---- */
-            .formLogin(form -> form
-                .loginPage("/login")
-                .defaultSuccessUrl("/success", true)
-                .failureUrl("/login?error=true")
-                .permitAll()
-            )
-
-            /* ---- logout ---- */
-            .logout(log -> log
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .clearAuthentication(true)
-                .permitAll()
-            );
+            /* Disabilita login form, http-basic e qualunque meccanismo di auth */
+            .formLogin(AbstractHttpConfigurer::disable)
+            .httpBasic(AbstractHttpConfigurer::disable)
+            .logout(AbstractHttpConfigurer::disable);
 
         return http.build();
     }

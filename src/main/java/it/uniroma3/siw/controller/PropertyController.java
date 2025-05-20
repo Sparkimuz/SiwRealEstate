@@ -91,7 +91,7 @@ public class PropertyController {
 		return "property.html";
 	}
 
-	@GetMapping(value = "/property")
+	@GetMapping(value = "/properties")
 	public String showProperties(Model model) {
 		model.addAttribute("properties", this.propertyService.findAll());
 		return "properties.html";

@@ -1,5 +1,6 @@
 package it.uniroma3.siw.controller;
 
+<<<<<<< Updated upstream
 import java.util.List;
 
 import it.uniroma3.siw.model.RealEstateAgency;
@@ -13,6 +14,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import it.uniroma3.siw.service.RealEstateAgencyService;
+>>>>>>> Stashed changes
 
 @Controller
 public class RealEstateAgencyController {
@@ -20,6 +29,7 @@ public class RealEstateAgencyController {
     @Autowired
     private RealEstateAgencyService agencyService;
 
+<<<<<<< Updated upstream
     @Autowired
     private RealEstateAgencyValidator agencyValidator;
 
@@ -93,4 +103,11 @@ public class RealEstateAgencyController {
         return "redirect:/admin/agencies";
     }
 
+=======
+    @GetMapping("/realestateagencies")
+    public String listAgencies(Model model) {
+        model.addAttribute("agencies", agencyService.findAll());
+        return "realestateagencies.html";   // già presente in templates
+    }
+>>>>>>> Stashed changes
 }

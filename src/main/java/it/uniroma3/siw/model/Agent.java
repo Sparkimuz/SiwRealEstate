@@ -81,5 +81,11 @@ public class Agent {
 		public void setProperties(List<Property> properties) {
 			this.properties = properties;
 		}
+		public RealEstateAgency getRealEstateAgency() {
+			return realEstateAgency;
+		}
+		public void setRealEstateAgency(RealEstateAgency realEstateAgency) {
+			this.realEstateAgency = realEstateAgency;
+		}
 
 }

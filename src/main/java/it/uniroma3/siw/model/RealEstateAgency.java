@@ -23,6 +23,8 @@ public class RealEstateAgency {
 	
 	private String city;
 	
+	private String urlImage;
+	
 	public Long getId() {
 		return id;
 	}
@@ -46,6 +48,12 @@ public class RealEstateAgency {
 	}
 	public void setCity(String city) {
 		this.city = city;
+	}
+	public String getUrlImage() {
+		return urlImage;
+	}
+	public void setUrlImage(String urlImage) {
+		this.urlImage = urlImage;
 	}
 	
 
