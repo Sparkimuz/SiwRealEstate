@@ -32,19 +32,19 @@ public class RealEstateAgencyController {
 
     // --- ROTTE PUBBLICHE (tutti, anche non loggati) ---
 
-    @GetMapping("/agencies")
+    @GetMapping("/realestateagencies")
     public String showAgencies(Model model) {
         List<RealEstateAgency> agencies = this.agencyService.findAll();
         model.addAttribute("agencies", agencies);
-        return "agencies.html";
+        return "realestateagencies.html";
     }
 
-    @GetMapping("/agency/{id}")
+    @GetMapping("/realEstateAgency/{id}")
     public String showAgency(@PathVariable("id") Long id, Model model) {
         RealEstateAgency agency = this.agencyService.findById(id);
         model.addAttribute("agency", agency);
         // la view potrà iterare agency.getAgents() per mostrare gli agenti
-        return "agency.html";
+        return "realEstateAgency.html";
     }
 
     // --- ROTTE ADMIN (solo ADMIN) ---
