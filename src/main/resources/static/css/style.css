@@ -97,23 +97,35 @@ body {
   border-color: var(--danger-color);
 }
 
-/* Footer personalizzato */
-footer {
+/* ------------------------------------------------------------------
+   NAVBAR & FOOTER
+------------------------------------------------------------------ */
+.navbar-custom {
+  background-color: var(--primary-color) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,.15);
+}
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  color: var(--light-color) !important;
+  transition: color .25s;
+}
+.navbar-custom .nav-link:hover {
+  color: var(--accent-color) !important;
+}
+
+/* footer coerente */
+footer.footer-custom {
   background-color: var(--primary-color);
-  color: white;
+  color: var(--light-color);
   padding: 2rem 0;
-  margin-top: 3rem;
+}
+footer.footer-custom a {
+  color: var(--accent-color);
+}
+footer.footer-custom a:hover {
+  color: #ffffff;
 }
 
-footer a {
-  color: rgba(255, 255, 255, 0.8);
-  transition: color 0.3s;
-}
-
-footer a:hover {
-  color: white;
-  text-decoration: none;
-}
 
 /* Form personalizzati */
 .form-control:focus {

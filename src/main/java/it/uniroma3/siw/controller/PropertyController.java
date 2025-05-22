@@ -96,9 +96,14 @@ public class PropertyController {
 		model.addAttribute("properties", this.propertyService.findAll());
 		return "properties.html";
 	}
-
+	
+	/* --- LISTA IMMOBILI PER CITTÀ (pubblico) --- */
+	
 	@GetMapping(value = "/formSearchProperty")
-	public String formSearchProperty() {
+	public String formSearchProperty(String city, Model model) {
+		List<Property> properties = propertyService.findAllByCity(city);
+	    model.addAttribute("properties", properties);
+	    model.addAttribute("city", city);
 		return "formSearchProperty.html";
 	}
 

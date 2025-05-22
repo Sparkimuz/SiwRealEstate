@@ -42,4 +42,8 @@ public class PropertyService {
 	public List<Property> findByAgent(Agent agent) {
 	    return this.propertyRepository.findByAgent(agent);
 	}
+	
+	public List<Property> findAllByCity(String city) {
+	    return this.propertyRepository.findAllByCity(city);
+	}
 }

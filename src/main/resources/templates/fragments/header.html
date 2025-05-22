@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+<nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/}">Siw Real Estate</a>
 
@@ -24,17 +24,30 @@
             </ul>
 
             <!-- Se hai Spring Security, mostra link diversi in base all’autenticazione -->
-            <ul class="navbar-nav">
-                <li th:if="${#authorization.expression('isAuthenticated()')}"
-                    class="nav-item">
-                    <a class="nav-link" th:href="@{/logout}">Logout</a>
-                </li>
-                <li th:unless="${#authorization.expression('isAuthenticated()')}"
-                    class="nav-item">
-                    <a class="nav-link" th:href="@{/login}">Login</a>
-                </li>
-            </ul>
-        </div>
+			<ul class="navbar-nav">
+
+			    <!-- Se l’utente è già loggato mostro SOLO “Logout” -->
+			    <li th:if="${#authorization.expression('isAuthenticated()')}"
+			        class="nav-item">
+			        <a class="nav-link" th:href="@{/logout}">Logout</a>
+			    </li>
+
+			    <!-- Se NON è loggato mostro “Login” e, subito dopo, “Registrati” -->
+			    <li th:unless="${#authorization.expression('isAuthenticated()')}"
+			        class="nav-item">
+			        <a class="nav-link" th:href="@{/login}">Login</a>
+			    </li>
+
+			    <li th:unless="${#authorization.expression('isAuthenticated()')}"
+			        class="nav-item">
+			        <!-- btn-outline-primary per evidenziarlo un po’ di più;
+			             ms-lg-2 = piccolo margine a sinistra su viewport ≥ lg -->
+			        <a class="nav-link" th:href="@{/register}">
+			            Registrati
+			        </a>
+			    </li>
+			</ul>
+		</div>
     </div>
 </nav>
 </body>
