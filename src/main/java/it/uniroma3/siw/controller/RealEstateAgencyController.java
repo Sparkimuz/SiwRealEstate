@@ -100,9 +100,9 @@ public class RealEstateAgencyController {
         return "redirect:/admin/agencies";
     }
 
-    @GetMapping("/realestateagencies")
+    /*@GetMapping("/realestateagencies")
     public String listAgencies(Model model) {
         model.addAttribute("agencies", agencyService.findAll());
         return "realestateagencies.html";   // già presente in templates
-    }
+    }*/
 }
