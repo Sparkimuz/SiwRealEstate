@@ -123,14 +123,14 @@ public class PropertyController {
 		User currentUser = credenziali.getUser();
 		Agent currentAgent = currentUser.getAgent();
 		model.addAttribute("properties", currentAgent.getProperties());
-		return "supplier/manageProperties.html";
+		return "agent/manageProperties.html";
 	}
 
 	@GetMapping(value = "/agent/addProperty")
 	public String formNewProperty(Model model) {
 		Property property = new Property();
 		model.addAttribute("property", property);
-		return "supplier/addProperty.html";
+		return "agent/addProperty.html";
 	}
 
 	@GetMapping("/deleteProperty/{id}")

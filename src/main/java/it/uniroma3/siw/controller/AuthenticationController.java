@@ -89,49 +89,45 @@ public class AuthenticationController {
 
     /* ---------- REGISTRA NUOVO UTENTE (→ AGENT) ---------- */
 
-    @PostMapping("/register")
-    public String registerUser(
-            @Valid   @ModelAttribute("user")        User        user,
-                     BindingResult                  userErrors,
-            @Valid   @ModelAttribute("credentials") Credentials credentials,
-            @RequestParam("immagine") MultipartFile file,
-                     BindingResult                  credErrors,
-                     Model                          model) {
-
-        credentialsValidator.validate(credentials, credErrors);
-        userValidator.validate(user, userErrors);
-
-        if (credErrors.hasErrors() || userErrors.hasErrors())
-            return "register.html";
-
-        /* ---- salva eventuale immagine ---- */
-        if (!file.isEmpty()) {
-            try {
-                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-                Path   path     = Paths.get(UPLOAD_DIR + File.separator + fileName);
-                Files.write(path, file.getBytes());
-                user.setUrlImage(fileName);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "register.html";
-            }
+    @PostMapping(value = "/register" )
+    public String registerUser(@Valid @ModelAttribute("user") User user,
+                 BindingResult userBindingResult, @Valid
+                 @ModelAttribute("credentials") Credentials credentials,
+                 @RequestParam("immagine") MultipartFile file, BindingResult credentialsBindingResult,
+                 Model model) {
+		
+		this.credentialsValidator.validate(credentials, credentialsBindingResult);
+		this.userValidator.validate(user, userBindingResult);
+		
+		// se user e credential hanno entrambi contenuti validi, memorizza User e the Credentials nel DB
+        if(!credentialsBindingResult.hasErrors() && !userBindingResult.hasErrors()) {
+        	if (!file.isEmpty())
+				try {
+					String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+					Path path = Paths.get(UPLOAD_DIR + File.separator + fileName);
+					Files.write(path, file.getBytes());
+					user.setUrlImage(fileName);
+				} catch (IOException e) {
+					e.printStackTrace();
+					return "registerUser";
+				}
+        	
+        	userService.saveUser(user);
+        	credentials.setUser(user);
+            credentialsService.saveCredentials(credentials);
+            
+            
+            Agent newAgent= new Agent(); 
+            newAgent.setName(user.getName());
+            newAgent.setSurname(user.getSurname());
+            newAgent.setBirthdate(user.getBirthdate());
+            newAgent.setUrlImage(user.getUrlImage());
+            user.setAgent(newAgent);
+            this.agentService.save(newAgent);
+            
+            model.addAttribute("user", user);
+            return "login.html";
         }
-
-        /* ---- persistenza ---- */
-        userService.saveUser(user);
-        credentials.setUser(user);             // FK
-        credentialsService.saveCredentials(credentials);   // imposta ruolo AGENT
-
-        /*  creiamo subito l’entità Agent collegata all’utente  */
-        Agent agent = new Agent();
-        agent.setName(user.getName());
-        agent.setSurname(user.getSurname());
-        agent.setBirthdate(user.getBirthdate());
-        agent.setUrlImage(user.getUrlImage());
-        user.setAgent(agent);
-        agentService.save(agent);
-
-        model.addAttribute("user", user);
-        return "login.html";
+        return "register.html";
     }
 }
