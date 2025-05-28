@@ -66,6 +66,17 @@
                          th:if="${#fields.hasErrors('user.birthdate')}"
                          th:errors="*{user.birthdate}"></div>
                 </div>
+				
+				<!-- SEDE (RealEstateAgency) -->
+				<div class="col-md-6">
+				    <label for="agency" class="form-label">Sede</label>
+				    <select id="agency" name="agencyId" class="form-select" required>
+				        <option th:each="agency : ${agencies}"
+				                th:value="${agency.id}"
+				                th:text="${agency.city + ' – ' + agency.address}">
+				        </option>
+				    </select>
+				</div>
 
                 <!-- USERNAME -->
                 <div class="col-md-6">
@@ -96,6 +107,7 @@
                     <input id="immagine" name="immagine" type="file"
                            class="form-control">
                 </div>
+				
 
                 <div class="col-12 text-center mt-4">
                     <button class="btn btn-primary px-5" type="submit">

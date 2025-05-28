@@ -39,7 +39,7 @@ public class AgentController {
 	
 	 /* private static final String UPLOAD_DIR = "C:\\Users\\Gabriele\\git\\Concessionario\\SiwConcessionario\\src\\main\\resources\\static\\images"; */
 		
-	 private static final String UPLOAD_DIR= "C:\\Users\\39345\\Documents\\Concessionario-Siw\\SiwConcessionario\\src\\main\\resources\\static\\images"; 
+	 private static final String UPLOAD_DIR= "C:\\\\Users\\\\andre\\\\Documents\\\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\\\SiwRealEstate\\\\src\\\\main\\\\resources\\\\static\\\\images"; 
 	 
 	@Autowired
 	AgentService agentService;
@@ -123,8 +123,15 @@ public class AgentController {
 	}
 	
 	@GetMapping("/agent/manageProperties")
-	public String manageProperties(Model model, RedirectAttributes redirect) {
-		return "agent/manageProperties.html";
+	public String manageProperties(Model model) {
+	    UserDetails u = gc.getUser();
+	    String username = u.getUsername();
+	    Credentials credenziali = this.credentialsService.getCredentials(username);
+	    User currentUser = credenziali.getUser();
+	    Agent currentAgent = currentUser.getAgent();
+
+	    model.addAttribute("properties", currentAgent.getProperties());
+	    return "agent/manageProperties.html";
 	}
 
 

@@ -18,7 +18,7 @@ public class RealEstateAgencyService {
     public RealEstateAgency findByCity(String city) {
         return realEstateAgencyRepository.findByCity(city);
     }
-
+    
     public List<RealEstateAgency> findAll() {
         return (List<RealEstateAgency>) this.realEstateAgencyRepository.findAll();
     }

@@ -23,9 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.model.Agent;
 import it.uniroma3.siw.model.Credentials;
+import it.uniroma3.siw.model.RealEstateAgency;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.service.AgentService;
 import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.RealEstateAgencyService;
 import it.uniroma3.siw.service.UserService;
 import it.uniroma3.siw.validator.CredentialsValidator;
 import it.uniroma3.siw.validator.UserValidator;
@@ -35,11 +37,12 @@ import jakarta.validation.Valid;
 public class AuthenticationController {
 
     private static final String UPLOAD_DIR =
-        "C:\\Users\\tcenc\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";
+        "C:\\Users\\andre\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";
 
     @Autowired private CredentialsService credentialsService;
     @Autowired private UserService        userService;
     @Autowired private AgentService       agentService;
+    @Autowired private RealEstateAgencyService agencyService;
 
     @Autowired private CredentialsValidator credentialsValidator;
     @Autowired private UserValidator        userValidator;
@@ -50,6 +53,7 @@ public class AuthenticationController {
     public String showRegisterForm(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("credentials", new Credentials());
+        model.addAttribute("agencies", agencyService.findAll());
         return "register.html";
     }
 
@@ -93,8 +97,9 @@ public class AuthenticationController {
     public String registerUser(@Valid @ModelAttribute("user") User user,
                  BindingResult userBindingResult, @Valid
                  @ModelAttribute("credentials") Credentials credentials,
-                 @RequestParam("immagine") MultipartFile file, BindingResult credentialsBindingResult,
-                 Model model) {
+                 @RequestParam("immagine") MultipartFile file, 
+                 @RequestParam("agencyId") Long agencyId, 
+                 BindingResult credentialsBindingResult, Model model) {
 		
 		this.credentialsValidator.validate(credentials, credentialsBindingResult);
 		this.userValidator.validate(user, userBindingResult);
@@ -122,12 +127,17 @@ public class AuthenticationController {
             newAgent.setSurname(user.getSurname());
             newAgent.setBirthdate(user.getBirthdate());
             newAgent.setUrlImage(user.getUrlImage());
+            
+            RealEstateAgency agency = agencyService.findById(agencyId);
+            newAgent.setRealEstateAgency(agency);
+            
             user.setAgent(newAgent);
             this.agentService.save(newAgent);
             
             model.addAttribute("user", user);
             return "login.html";
         }
+        model.addAttribute("agencies", agencyService.findAll());  // per ricaricare il form con errori
         return "register.html";
     }
 }

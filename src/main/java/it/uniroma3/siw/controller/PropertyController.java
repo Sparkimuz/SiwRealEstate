@@ -39,7 +39,7 @@ import jakarta.validation.Valid;
 public class PropertyController {
 
 
-	private static final String UPLOAD_DIR= "C:\\Users\\39345\\Documents\\Concessionario-Siw\\SiwConcessionario\\src\\main\\resources\\static\\images";
+	private static final String UPLOAD_DIR= "C:\\\\Users\\\\andre\\\\Documents\\\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\\\SiwRealEstate\\\\src\\\\main\\\\resources\\\\static\\\\images";
 
 
 	@Autowired
@@ -90,6 +90,7 @@ public class PropertyController {
 		model.addAttribute("property", p);
 		return "property.html";
 	}
+
 
 	@GetMapping(value = "/properties")
 	public String showProperties(Model model) {
@@ -158,15 +159,15 @@ public class PropertyController {
 
 				} catch (IOException e) {
 					e.printStackTrace();
-					return "formNewProperty.html";
+					return "agent/addProperty.html";
 				}
 			}
 		}
 
 		if (credentials.getRole().equals("AGENT"))
-			return "/agent/formNewProperty.html";
+			return "/agent/addProperty.html";
 		else
-			return "/admin/formNewProperty.html";
+			return "/admin/addProperty.html";
 	}
 
 	@GetMapping(value = "/admin/addProperty")
