@@ -1,6 +1,7 @@
 package it.uniroma3.siw.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -28,7 +29,7 @@ public class Agent {
 		private RealEstateAgency realEstateAgency;
 
 		@OneToMany(mappedBy = "agent", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-		private List<Property> properties;
+	    private List<Property> properties = new ArrayList<>();
 		
 		private String name;
 		

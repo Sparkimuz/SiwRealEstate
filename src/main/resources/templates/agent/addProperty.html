@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Aggiungi proprietà</title>
+
+    <!-- se usi Bootstrap / Tailwind includi qui i tuoi css -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+<!-- Header comune -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container py-4">
+
+    <h2 class="mb-4 text-center">Nuova proprietà</h2>
+
+    <!-- =======================
+         MESSAGGI DI VALIDAZIONE
+         ======================= -->
+    
+
+    <!-- ==============
+         FORM PRINCIPALE
+         ============== -->
+    <form  th:object="${property}"
+           th:action="@{/agent/addProperty}"
+           method="post"
+           enctype="multipart/form-data"
+           class="row g-3">
+			   
+		<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+		     <strong>Oops!</strong> Correggi gli errori evidenziati nel form.
+		</div>
+        <!-- ====== titolo annuncio ====== -->
+        <div class="col-md-6">
+            <label for="title" class="form-label">Titolo annuncio</label>
+            <input  type="text" id="address"   class="form-control"
+                    th:field="*{address}" placeholder="Es. Via Degli Scipioni">
+            <div  th:if="${#fields.hasErrors('address')}"
+                  th:errors="*{address}" class="text-danger small"></div>
+        </div>
+
+        <!-- ====== indirizzo ====== -->
+        <div class="col-md-8">
+            <label for="address" class="form-label">Indirizzo</label>
+            <input  type="text" id="address" class="form-control"
+                    th:field="*{address}" placeholder="Via Roma 123">
+            <div  th:if="${#fields.hasErrors('address')}"
+                  th:errors="*{address}" class="text-danger small"></div>
+        </div>
+
+        <!-- ====== città ====== -->
+        <div class="col-md-4">
+            <label for="city" class="form-label">Città</label>
+            <input  type="text" id="city" class="form-control"
+                    th:field="*{city}">
+            <div  th:if="${#fields.hasErrors('city')}"
+                  th:errors="*{city}" class="text-danger small"></div>
+        </div>
+		<!-- ====== tipologia ====== -->
+		<div class="col-md-4">
+		            <label for="type" class="form-label">Tipologia</label>
+		            <input  type="text" id="type" class="form-control"
+		                    th:field="*{type}">
+		            <div  th:if="${#fields.hasErrors('type')}"
+		                  th:errors="*{type}" class="text-danger small"></div>
+		        </div>
+
+        <!-- ====== superficie ====== -->
+        <div class="col-md-3">
+            <label for="size" class="form-label">Superficie (m²)</label>
+            <input  type="number" id="size" min="1" class="form-control"
+                    th:field="*{size}">
+            <div  th:if="${#fields.hasErrors('size')}"
+                  th:errors="*{size}" class="text-danger small"></div>
+        </div>
+
+        <!-- ====== prezzo ====== -->
+        <div class="col-md-3">
+            <label for="price" class="form-label">Prezzo (€)</label>
+            <input  type="number" id="price" step="1000" min="0"
+                    class="form-control" th:field="*{price}">
+            <div  th:if="${#fields.hasErrors('price')}"
+                  th:errors="*{price}" class="text-danger small"></div>
+        </div>
+
+        <!-- ====== immagine principale ====== -->
+        <div class="col-md-6">
+            <label for="image" class="form-label">Immagine principale</label>
+            <input  type="file" id="image" name="image"
+                    class="form-control" accept="image/*" required>
+            <div  th:if="${errorImage}" class="text-danger small"
+                  th:text="${errorImage}"></div>
+        </div>
+
+        <!-- ====== pulsanti ====== -->
+        <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+            <a th:href="@{/agent/manageProperties}"
+               class="btn btn-secondary">Annulla</a>
+            <button type="submit" class="btn btn-primary">Salva proprietà</button>
+        </div>
+    </form>
+
+</div>
+
+<!-- Footer comune -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,9 +21,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.uniroma3.siw.model.Agent;
 import it.uniroma3.siw.model.Credentials;
+import it.uniroma3.siw.model.Property;
 import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.repository.AgentRepository;
 import it.uniroma3.siw.service.AgentService;
@@ -117,6 +121,12 @@ public class AgentController {
 		model.addAttribute("agents", agents);
 		return "admin/manageAgents.html";
 	}
+	
+	@GetMapping("/agent/manageProperties")
+	public String manageProperties(Model model, RedirectAttributes redirect) {
+		return "agent/manageProperties.html";
+	}
+
 
 	@GetMapping(value = "/admin/removeAgent/{id}")
 	public String removeSupplier(@PathVariable("id") Long id) {

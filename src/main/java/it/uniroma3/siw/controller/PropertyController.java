@@ -114,18 +114,6 @@ public class PropertyController {
 		return "property.html";
 	}*/
 
-	/*In questo caso modifica solo le proprietà da lui inserite*/
-	@GetMapping(value = "/agent/manageProperties")
-	public String manageProperties(Model model) {
-		UserDetails u = gc.getUser();
-		String username = u.getUsername();
-		Credentials credenziali = this.credentialsService.getCredentials(username);
-		User currentUser = credenziali.getUser();
-		Agent currentAgent = currentUser.getAgent();
-		model.addAttribute("properties", currentAgent.getProperties());
-		return "agent/manageProperties.html";
-	}
-
 	@GetMapping(value = "/agent/addProperty")
 	public String formNewProperty(Model model) {
 		Property property = new Property();
@@ -186,12 +174,6 @@ public class PropertyController {
 		Property property = new Property();
 		model.addAttribute("property", property);
 		return "admin/addProperty.html";
-	}
-
-	@GetMapping(value = "admin/manageProperties")
-	public String AdminManageProperties(Model model) {
-		model.addAttribute("properties", this.propertyService.findAll());
-		return "admin/manageProperties.html";
 	}
 
 	@GetMapping("admin/removeProperty/{id}")
