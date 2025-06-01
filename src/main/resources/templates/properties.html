@@ -51,9 +51,9 @@
 
         <!-- immagine a sinistra -->
         <div class="col-md-4">
-            <img th:if="${property.urlImage != null}"
-                 th:src="${property.urlImage}"
-                 class="img-fluid h-100 w-100 object-fit-cover" alt="Immagine proprietà">
+			<img th:if="${property.urlImage != null}"
+			     th:src="@{/images/{img}(img=${property.urlImage})}"
+			     class="img-fluid h-100 w-100 object-fit-cover" alt="Immagine proprietà">
             <img th:if="${property.urlImage == null}"
                  th:src="@{/images/property-placeholder.jpg}"
                  class="img-fluid h-100 w-100 object-fit-cover" alt="Immagine proprietà">

@@ -33,14 +33,6 @@
 		<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
 		     <strong>Oops!</strong> Correggi gli errori evidenziati nel form.
 		</div>
-        <!-- ====== titolo annuncio ====== -->
-        <div class="col-md-6">
-            <label for="title" class="form-label">Titolo annuncio</label>
-            <input  type="text" id="address"   class="form-control"
-                    th:field="*{address}" placeholder="Es. Via Degli Scipioni" required>
-            <div  th:if="${#fields.hasErrors('address')}"
-                  th:errors="*{address}" class="text-danger small"></div>
-        </div>
 
         <!-- ====== indirizzo ====== -->
         <div class="col-md-8">

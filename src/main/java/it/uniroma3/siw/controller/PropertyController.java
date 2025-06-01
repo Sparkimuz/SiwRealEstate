@@ -128,6 +128,52 @@ public class PropertyController {
 		model.addAttribute("properties", this.propertyService.findAll());
 		return "properties.html";
 	}
+	
+	/* ========== FORM UPDATE ========== */
+	@GetMapping("/agent/formUpdateProperty/{id}")
+	public String formUpdateProperty(@PathVariable Long id, Model model) {
+	    Property property = propertyService.findById(id);
+	    model.addAttribute("property", property);
+	    return "agent/formUpdateProperty.html";
+	}
+
+	/* ========== SUBMIT UPDATE ========== */
+	@PostMapping("/agent/updateProperty")
+	public String updateProperty(@Valid @ModelAttribute("property") Property property,
+	                             BindingResult bindingResult,
+	                             @RequestParam("immagine") MultipartFile file,
+	                             Model model) {
+
+	    // validazione custom
+	    propertyValidator.validate(property, bindingResult);
+
+	    if (bindingResult.hasErrors()) {
+	        return "agent/formUpdateProperty.html";
+	    }
+
+	    // se arriva un file, sovrascrive l’immagine
+	    if (!file.isEmpty()) {
+	        try {
+	            String fileName = StringUtils.cleanPath(file.getOriginalFilename())
+	                                          .replaceAll("\\s+", "_");
+	            Path path = Paths.get(UPLOAD_DIR + File.separator + fileName);
+	            Files.createDirectories(path.getParent());
+	            Files.write(path, file.getBytes());
+	            property.setUrlImage(fileName);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            model.addAttribute("fileError", "Errore nel caricamento dell’immagine");
+	            return "agent/formUpdateProperty.html";
+	        }
+	    } else {
+	        // preserva la vecchia immagine
+	        Property original = propertyService.findById(property.getId());
+	        property.setUrlImage(original.getUrlImage());
+	    }
+
+	    propertyService.save(property);
+	    return "redirect:/agent/manageProperties";
+	}
 
 	@PostMapping(value = "/property")
 	public String newProperty(@Valid @ModelAttribute("property") Property property,

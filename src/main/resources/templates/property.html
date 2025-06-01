@@ -15,7 +15,7 @@
 <!-- ===== barra di navigazione in alto ===== -->
 <section class="bg-light py-3">
     <div class="container d-flex gap-2">
-        <a th:href="@{/index}"        class="btn btn-outline-secondary d-flex align-items-center">
+        <a th:href="@{/index}" class="btn btn-outline-secondary d-flex align-items-center">
             <img th:src="@{/images/home.svg}" alt="Home" width="24" height="24" class="me-2"> Home
         </a>
         <a th:href="@{/properties}" class="btn btn-outline-primary">Torna alla lista immobili</a>
@@ -23,13 +23,15 @@
 </section>
 
 <!-- ===== immagine principale ===== -->
-<section>
-    <img th:if="${property.urlImage != null}"
-         th:src="${property.urlImage}"
-         class="w-100" style="max-height:420px;object-fit:cover" alt="Foto immobile">
-    <img th:if="${property.urlImage == null}"
-         th:src="@{/images/property-placeholder.jpg}"
-         class="w-100" style="max-height:420px;object-fit:cover" alt="Foto immobile">
+<section class="px-3 px-md-5 py-4">
+    <div class="border rounded overflow-hidden text-center bg-white p-3">
+        <img th:if="${property.urlImage != null}"
+             th:src="@{/images/{img}(img=${property.urlImage})}"
+             style="max-width: 100%; height: auto;" alt="Foto immobile">
+        <img th:if="${property.urlImage == null}"
+             th:src="@{/images/property-placeholder.jpg}"
+             style="max-width: 100%; height: auto;" alt="Foto immobile">
+    </div>
 </section>
 
 <!-- ===== dettagli immobile ===== -->
