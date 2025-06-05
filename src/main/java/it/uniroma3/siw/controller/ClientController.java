@@ -64,7 +64,7 @@ public class ClientController {
         if (!clientBindingResult.hasErrors()) {
             this.clientService.save(client);
             model.addAttribute("client", client);
-            return "redirect:/client/" + client.getId();
+            return "redirect:/agent/formNewContract";
         }
         return "agent/formNewClient.html";
     }

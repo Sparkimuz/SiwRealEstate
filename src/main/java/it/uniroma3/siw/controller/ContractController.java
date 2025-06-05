@@ -134,7 +134,7 @@ public class ContractController {
             contract.setClient(c);
             contract.setAgent(me);
             this.contractService.save(contract);
-            return "redirect:/agent/contract/" + contract.getId();
+            return "redirect:/agent/contracts";
         }
         // in caso di errori
         model.addAttribute("properties", this.propertyService.findByAgent(me));

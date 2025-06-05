@@ -90,7 +90,9 @@ public class AuthConfiguration {
 				.logoutUrl("/logout")
 				.logoutSuccessUrl("/")
 				.invalidateHttpSession(true)
-				.deleteCookies("JSESSIONID"));
+				.deleteCookies("JSESSIONID"))
+		
+		.exceptionHandling(ex -> ex.accessDeniedPage("/login"));
 
 		return http.build();
 	}
