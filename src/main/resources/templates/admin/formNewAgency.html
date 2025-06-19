@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Aggiungi agenzia</title>
+
+    <!-- se usi Bootstrap / Tailwind includi qui i tuoi css -->
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+
+<body>
+<!-- Header comune -->
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container py-4">
+
+    <h2 class="mb-4 text-center">Nuova agenzia</h2>
+
+    <!-- Form agenzia -->
+    <form th:object="${agency}"
+          th:action="@{/admin/saveRealEstateAgency}"
+          method="post"
+          enctype="multipart/form-data"
+          class="row g-3">
+
+        <!-- Messaggi validazione -->
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger col-12">
+            <strong>Oops!</strong> Correggi gli errori evidenziati nel form.
+        </div>
+
+        <!-- indirizzo -->
+        <div class="col-md-8">
+            <label for="address" class="form-label">Indirizzo</label>
+            <input type="text" id="address" class="form-control"
+                   th:field="*{address}" placeholder="Via Roma 123" required>
+            <div th:errors="*{address}" class="text-danger small"></div>
+        </div>
+
+        <!-- città -->
+        <div class="col-md-4">
+            <label for="city" class="form-label">Città</label>
+            <input type="text" id="city" class="form-control"
+                   th:field="*{city}" required>
+            <div th:errors="*{city}" class="text-danger small"></div>
+        </div>
+
+        <!-- immagine -->
+        <div class="col-md-6">
+            <label for="image" class="form-label">Immagine sede</label>
+            <input type="file" id="image" name="immagine"
+                   class="form-control" accept="image/*" required>
+            <div th:if="${fileError}" class="text-danger small" th:text="${fileError}"></div>
+        </div>
+
+        <!-- pulsanti -->
+        <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+            <a th:href="@{/admin/agencies}" class="btn btn-secondary">Annulla</a>
+            <button type="submit" class="btn btn-primary">Salva agenzia</button>
+        </div>
+
+    </form>
+</div>
+
+<!-- Footer comune -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

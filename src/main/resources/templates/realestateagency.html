@@ -15,7 +15,7 @@
 <!-- ===== barra in alto con pulsanti ===== -->
 <section class="bg-light py-3">
     <div class="container d-flex gap-2">
-        <a th:href="@{/index}"                class="btn btn-outline-secondary d-flex align-items-center">
+        <a th:href="@{/index}" class="btn btn-outline-secondary d-flex align-items-center">
             <img th:src="@{/images/home.svg}" alt="Home" width="24" height="24" class="me-2"> Home
         </a>
         <a th:href="@{/realestateagencies}" class="btn btn-outline-primary">Torna a tutte le sedi</a>
@@ -29,7 +29,7 @@
         <!-- immagine -->
         <div class="col-md-4">
             <img th:if="${agency.urlImage != null}"
-                 th:src="${agency.urlImage}"
+                 th:src="@{/images/{img}(img=${agency.urlImage})}"
                  class="img-fluid rounded shadow-sm" alt="Foto sede">
             <img th:if="${agency.urlImage == null}"
                  th:src="@{/images/agency-placeholder.jpg}"
@@ -60,7 +60,7 @@
         <!-- foto agente -->
         <div class="col-md-3">
             <img th:if="${agent.urlImage != null}"
-                 th:src="${agent.urlImage}"
+                 th:src="@{/images/{img}(img=${agent.urlImage})}"
                  class="img-fluid h-100 w-100 object-fit-cover" alt="Foto agente">
             <img th:if="${agent.urlImage == null}"
                  th:src="@{/images/agent-placeholder.jpg}"

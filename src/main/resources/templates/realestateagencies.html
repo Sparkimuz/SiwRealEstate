@@ -40,15 +40,14 @@
 	   
 	    <div class="row g-0 shadow-sm rounded overflow-hidden hover-effect">
 	        
-	        <!-- foto sede -->
-	        <div class="col-md-4">
-	            <img th:if="${agency.urlImage != null}"
-	                 th:src="${agency.urlImage}"
-	                 class="img-fluid h-100 w-100 object-fit-cover" alt="Foto sede">
-	            <img th:if="${agency.urlImage == null}"
-	                 th:src="@{/images/agency-placeholder.jpg}"
-	                 class="img-fluid h-100 w-100 object-fit-cover" alt="Foto sede">
-	        </div>
+			<div class="col-md-4">
+			    <img th:if="${agency.urlImage != null}"
+			         th:src="@{/images/{img}(img=${agency.urlImage})}"
+			         class="img-fluid h-100 w-100 object-fit-cover" alt="Foto sede">
+			    <img th:if="${agency.urlImage == null}"
+			         th:src="@{/images/agency-placeholder.jpg}"
+			         class="img-fluid h-100 w-100 object-fit-cover" alt="Foto sede">
+			</div>
 
 	        <!-- dettagli sede -->
 	        <div class="col-md-8 p-4 d-flex flex-column">

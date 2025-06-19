@@ -64,7 +64,7 @@ public class AuthConfiguration {
 						"/css/**", "/images/**", "favicon.ico",
 						"/property/**",                 // proprietà singole
 						"/properties",
-						"/realestateagencies/**",
+						"/realestateagencies","/realEstateAgency/**",
 						"/agents", "/agent/**",
 						"/formSearchProperty",          //  ← ESATTO !
 						"/formSearchProperty/**").permitAll()       //  ← con eventuale slash finale
@@ -90,9 +90,9 @@ public class AuthConfiguration {
 				.logoutUrl("/logout")
 				.logoutSuccessUrl("/")
 				.invalidateHttpSession(true)
-				.deleteCookies("JSESSIONID"))
+				.deleteCookies("JSESSIONID"));
 		
-		.exceptionHandling(ex -> ex.accessDeniedPage("/login"));
+		//.exceptionHandling(ex -> ex.accessDeniedPage("/login"));
 
 		return http.build();
 	}

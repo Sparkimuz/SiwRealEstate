@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestione Agenti</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+
+<section class="container py-5">
+    <h2>Gestione Agenti</h2>
+
+    <div th:if="${#lists.isEmpty(agents)}" class="alert alert-info">
+        Nessun agente registrato.
+    </div>
+
+    <div th:each="agent : ${agents}" class="row g-0 mb-4 shadow-sm rounded overflow-hidden border">
+
+        <!-- Foto -->
+        <div class="col-md-3">
+            <img th:if="${agent.urlImage != null}"
+                 th:src="@{/images/{img}(img=${agent.urlImage})}"
+                 class="img-fluid h-100 w-100 object-fit-cover" alt="Foto agente">
+            <img th:if="${agent.urlImage == null}"
+                 th:src="@{/images/agent-placeholder.jpg}"
+                 class="img-fluid h-100 w-100 object-fit-cover" alt="Foto agente">
+        </div>
+
+        <!-- Info e azioni -->
+        <div class="col-md-9 p-4 d-flex flex-column">
+            <h4 th:text="${agent.name} + ' ' + ${agent.surname}">Nome Cognome</h4>
+            <p>
+                <strong>Data di nascita:</strong>
+                <span th:text="${#temporals.format(agent.birthdate, 'dd/MM/yyyy')}">01/01/1980</span>
+            </p>
+
+            <div class="mt-auto d-flex gap-2">
+                <a th:href="@{/admin/editAgent/{id}(id=${agent.id})}" class="btn btn-outline-warning">Modifica</a>
+                <form th:action="@{/admin/removeAgent/{id}(id=${agent.id})}" method="post"
+                      onsubmit="return confirm('Sei sicuro di voler eliminare questo agente?');">
+                    <button type="submit" class="btn btn-outline-danger">Elimina</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

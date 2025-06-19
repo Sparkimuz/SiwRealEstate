@@ -16,7 +16,7 @@ public class RealEstateAgency {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@OneToMany(mappedBy = "realEstateAgency", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "realEstateAgency", fetch = FetchType.EAGER)
 	List<Agent> agents;
 	
 	private String address;

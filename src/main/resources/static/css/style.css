@@ -1,6 +1,22 @@
 /* Stile personalizzato per l'applicazione immobiliare */
 
 /* Colori principali */
+
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  min-height: 100vh;
+}
+
+body > section:nth-of-type(2) {
+  flex: 1;
+}
+
 :root {
   --primary-color: #2c3e50;
   --secondary-color: #3498db;

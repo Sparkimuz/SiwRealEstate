@@ -1,7 +1,6 @@
-
-insert into real_estate_agency (id,address,city) values(1,'Via del Corso 123','Roma');
-insert into real_estate_agency (id,address,city) values(2,'Corso Vittorio 10','Milano');
-insert into real_estate_agency (id,address,city) values(3,'Via Toledo 45','Napoli');
+--insert into real_estate_agency (id,address,city) values(1,'Via del Corso 123','Roma');
+--insert into real_estate_agency (id,address,city) values(2,'Corso Vittorio 10','Milano');
+--insert into real_estate_agency (id,address,city) values(3,'Via Toledo 45','Napoli');
 
 --insert into agent (id,real_estate_agency_id,name,surname,birthdate,url_image) values(nextval('agent_seq'),1,'Luca','Bianchi','1985-06-12','/images/agents/luca.jpg');
 --insert into agent (id,real_estate_agency_id,name,surname,birthdate,url_image) values(nextval('agent_seq'),1,'Giulia','Rossi','1990-03-25','/images/agents/giulia.jpg');

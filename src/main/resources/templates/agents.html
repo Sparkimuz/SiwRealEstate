@@ -10,7 +10,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<header th:replace="fragments/header :: header"></header>
+<header th:replace="~{fragments/header :: header}"></header>
 
 <!-- ===== barra in alto con pulsante “home” ===== -->
 <section class="bg-light py-3">
@@ -38,7 +38,7 @@
         <!-- foto profilo -->
         <div class="col-md-3">
             <img th:if="${agent.urlImage != null}"
-                 th:src="${agent.urlImage}"
+                 th:src="@{'/uploads/' + ${agent.urlImage}}"
                  class="img-fluid h-100 w-100 object-fit-cover" alt="Foto agente">
             <img th:if="${agent.urlImage == null}"
                  th:src="@{/images/agent-placeholder.jpg}"
@@ -65,7 +65,7 @@
 
 </section>
 
-<footer th:replace="fragments/footer :: footer"></footer>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 
 <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
 <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
