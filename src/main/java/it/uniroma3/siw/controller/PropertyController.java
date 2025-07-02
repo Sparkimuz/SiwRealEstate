@@ -38,8 +38,8 @@ import jakarta.validation.Valid;
 @Controller
 public class PropertyController {
 
-    private static final String UPLOAD_DIR = "C:\\Users\\andre\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";		
-	//private static final String UPLOAD_DIR= "C:\\\\Users\\\\tcenc\\\\Documents\\\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\\\SiwRealEstate\\\\src\\\\main\\\\resources\\\\static\\\\images";
+    //private static final String UPLOAD_DIR = "C:\\Users\\andre\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";		
+	private static final String UPLOAD_DIR= "C:\\\\Users\\\\tcenc\\\\Documents\\\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\\\SiwRealEstate\\\\src\\\\main\\\\resources\\\\static\\\\images";
 
 
 	@Autowired
@@ -91,7 +91,12 @@ public class PropertyController {
 		return "property.html";
 	}
 
-
+	@GetMapping("/admin/manageProperties")
+    public String adminManageProperties(Model model) {
+        model.addAttribute("properties", propertyService.findAll());
+        return "admin/manageProperties.html";     // view già presente nei template
+    }
+	
 	@GetMapping(value = "/properties")
 	public String showProperties(Model model) {
 		model.addAttribute("properties", this.propertyService.findAll());

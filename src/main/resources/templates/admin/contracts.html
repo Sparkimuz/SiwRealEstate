@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contratti – SIW Real Estate</title>
+
+    <!-- Bootstrap & stile applicazione -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+
+<!-- HERO -->
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h1 class="display-5 mb-3">Gestione contratti</h1>
+        <p class="lead mb-0">Consulta, filtra o crea nuovi contratti.</p>
+    </div>
+</section>
+
+<section class="container py-4">
+
+    <!-- Barra azioni -->
+    <div class="d-flex flex-column flex-md-row gap-3 justify-content-between mb-4">
+
+        <!-- Ricerca veloce -->
+        <div class="input-group flex-grow-1">
+            <span class="input-group-text">
+                <i class="bi bi-search"></i>
+            </span>
+            <input id="quickSearch" type="text" class="form-control"
+                   placeholder="Cerca per immobile, cliente, agente…">
+        </div>
+
+        <!-- Nuovo contratto -->
+        <a th:href="@{/admin/formNewContract}"
+           class="btn btn-success d-flex align-items-center gap-1">
+            Nuovo contratto
+        </a>
+    </div>
+
+    <!-- Nessun contratto -->
+    <div th:if="${#lists.isEmpty(contracts)}" class="alert alert-info">
+        Nessun contratto presente al momento.
+    </div>
+
+    <!-- Tabella contratti -->
+    <div class="table-responsive">
+        <table id="contractsTable"
+               class="table table-hover align-middle">
+            <thead class="table-primary">
+            <tr>
+                <th scope="col">#ID</th>
+                <th scope="col">Immobile</th>
+                <th scope="col">Cliente</th>
+                <th scope="col">Agente</th>
+                <th scope="col">Inizio</th>
+                <th scope="col">Fine</th>
+                <th scope="col">Prezzo&nbsp;(€)</th>
+                <th scope="col">Stato</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="contract : ${contracts}"
+                th:onclick="|window.location.href='@{/admin/contract/{id}(id=${contract.id})}'|"
+                style="cursor:pointer;">
+                <th scope="row" th:text="${contract.id}">1</th>
+
+                <td th:text="${contract.property.address}">Via Roma 123</td>
+
+                <td th:text="${contract.client.name + ' ' + contract.client.surname}">
+                    Mario Rossi
+                </td>
+
+                <td th:text="${contract.agent.name + ' ' + contract.agent.surname}">
+                    Laura Bianchi
+                </td>
+
+                <td th:text="${#temporals.format(contract.startDate,'dd/MM/yyyy')}">
+                    01/02/2025
+                </td>
+
+                <td th:text="${#temporals.format(contract.finalDate,'dd/MM/yyyy')}">
+                    31/01/2026
+                </td>
+
+                <td th:text="${#numbers.formatDecimal(contract.finalPrice,0,'POINT',2,'COMMA')}">
+                    250 000
+                </td>
+
+                <!-- Badge stato -->
+                <td>
+                    <span th:with="today=${T(java.time.LocalDate).now()}"
+                          th:switch="${true}">
+                        <!-- Attivo -->
+                        <span th:case="${contract.startDate <= today and contract.finalDate >= today}"
+                              class="badge bg-success">Attivo</span>
+                        <!-- Scaduto -->
+                        <span th:case="${contract.finalDate < today}"
+                              class="badge bg-secondary">Scaduto</span>
+                        <!-- Futuro -->
+                        <span th:case="*"
+                              class="badge bg-warning text-dark">In arrivo</span>
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</section>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<!-- Bootstrap bundle + icone & piccolo JS per filtro client-side -->
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.js"></script>
+<script>
+    /* Filtro live sulla tabella */
+    document.getElementById('quickSearch').addEventListener('input', function (e) {
+        const term = e.target.value.toLowerCase();
+        document.querySelectorAll('#contractsTable tbody tr').forEach(row => {
+            const txt = row.innerText.toLowerCase();
+            row.style.display = txt.includes(term) ? '' : 'none';
+        });
+    });
+</script>
+</body>
+</html>

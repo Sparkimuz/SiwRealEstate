@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuovo contratto – SIW Real Estate</title>
+
+    <!-- Bootstrap + stile applicazione -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+
+<!-- HERO -->
+<section class="py-5 bg-light">
+    <div class="container text-center">
+        <h1 class="display-5 mb-3">Crea un nuovo contratto</h1>
+        <p class="lead mb-0">Compila i dati richiesti e associa immobile, cliente e periodo.</p>
+    </div>
+</section>
+
+<section class="container py-4">
+
+    <!-- ====== FORM PRINCIPALE ====== -->
+    <form th:object="${contract}"
+          th:action="@{/admin/saveContract}"		
+          method="post"
+          class="row g-3">
+		
+		  <!-- ====== messaggi di errore globali ====== -->
+		<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+		  Correggi gli errori evidenziati nel form.
+		</div>
+
+        <!-- ========= PROPERTY ========= -->
+        <div class="col-md-6">
+            <label for="propertyId" class="form-label">Immobile</label>
+            <select id="propertyId" name="propertyId" class="form-select" required>
+                <option value="" disabled selected>Scegli un immobile…</option>
+                <option th:each="p : ${properties}"
+                        th:value="${p.id}"
+                        th:text="${p.address + ' – ' + p.city}">
+                </option>
+            </select>
+            <div class="text-danger small" th:if="${#fields.hasErrors('property')}"
+                 th:errors="*{property}"></div>
+        </div>
+
+        <!-- ========= CLIENTE ========= -->
+        <div class="col-md-6">
+            <label for="clientId" class="form-label">Cliente</label>
+            <div class="input-group">
+                <select id="clientId" name="clientId" class="form-select" required>
+                    <option value="" disabled selected>Scegli un cliente…</option>
+                    <option th:each="c : ${clients}"
+                            th:value="${c.id}"
+                            th:text="${c.name + ' ' + c.surname}">
+                    </option>
+                </select>
+                <!-- bottone “nuovo cliente” -->
+                <a th:href="@{/admin/formNewClient}"
+                   class="btn btn-outline-secondary"
+                   title="Aggiungi nuovo cliente">
+                    <span class="material-symbols-outlined">Aggiungi cliente</span>
+                </a>
+            </div>
+            <div class="text-danger small" th:if="${#fields.hasErrors('client')}"
+                 th:errors="*{client}"></div>
+        </div>
+
+        <!-- ========= DATA INIZIO ========= -->
+        <div class="col-md-4">
+            <label for="startDate" class="form-label">Data inizio</label>
+            <input id="startDate" type="date" class="form-control"
+                   th:field="*{startDate}" required>
+            <div class="text-danger small" th:errors="*{startDate}"></div>
+        </div>
+
+        <!-- ========= DATA FINE ========= -->
+        <div class="col-md-4">
+            <label for="finalDate" class="form-label">Data fine</label>
+            <input id="finalDate" type="date" class="form-control"
+                   th:field="*{finalDate}" required>
+            <div class="text-danger small" th:errors="*{finalDate}"></div>
+        </div>
+
+        <!-- ========= PREZZO ========= -->
+        <div class="col-md-4">
+            <label for="finalPrice" class="form-label">Prezzo finale (€)</label>
+            <input id="finalPrice" type="number" step="1000" min="0"
+                   class="form-control" th:field="*{finalPrice}" required>
+            <div class="text-danger small" th:errors="*{finalPrice}"></div>
+        </div>
+
+        <!-- ========= PULSANTI ========= -->
+        <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+            <a th:href="@{/admin/contracts}" class="btn btn-secondary">Annulla</a>
+            <button type="submit" class="btn btn-primary">Salva contratto</button>
+        </div>
+    </form>
+
+</section>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica proprietà</title>
+
+    <!-- Bootstrap & stile custom -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+
+<section class="container py-4">
+
+    <h2 class="mb-4 text-center">Modifica proprietà</h2>
+
+    <form  th:object="${property}"
+           th:action="@{/admin/updateProperty}"
+           method="post"
+           enctype="multipart/form-data"
+           class="row g-3">
+
+        <!-- messaggi di errore -->
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger col-12">
+            Correggi gli errori evidenziati.
+        </div>
+
+
+        <!-- nascosto: id -->
+        <input type="hidden" th:field="*{id}"/>
+		
+		<input type="hidden" th:field="*{agent.id}">
+
+        <!-- address -->
+        <div class="col-md-8">
+            <label class="form-label">Indirizzo</label>
+            <input type="text" class="form-control" th:field="*{address}">
+            <div th:errors="*{address}" class="text-danger small"></div>
+        </div>
+
+        <!-- city -->
+        <div class="col-md-4">
+            <label class="form-label">Città</label>
+            <input type="text" class="form-control" th:field="*{city}">
+            <div th:errors="*{city}" class="text-danger small"></div>
+        </div>
+
+        <!-- type -->
+        <div class="col-md-4">
+            <label class="form-label">Tipologia</label>
+            <input type="text" class="form-control" th:field="*{type}">
+            <div th:errors="*{type}" class="text-danger small"></div>
+        </div>
+
+        <!-- size -->
+        <div class="col-md-3">
+            <label class="form-label">Metratura (m²)</label>
+            <input type="number" min="1" class="form-control" th:field="*{size}">
+            <div th:errors="*{size}" class="text-danger small"></div>
+        </div>
+
+        <!-- price -->
+        <div class="col-md-3">
+            <label class="form-label">Prezzo (€)</label>
+            <input type="number" step="1000" min="0" class="form-control" th:field="*{price}">
+            <div th:errors="*{price}" class="text-danger small"></div>
+        </div>
+
+        <!-- immagine -->
+        <div class="col-md-6">
+            <label class="form-label">Nuova immagine (opzionale)</label>
+            <input type="file" name="immagine" class="form-control" accept="image/*">
+        </div>
+
+        <!-- pulsanti -->
+        <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+            <a th:href="@{/admin/manageProperties}" class="btn btn-secondary">Annulla</a>
+            <button type="submit" class="btn btn-primary">Salva modifiche</button>
+        </div>
+    </form>
+
+</section>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
