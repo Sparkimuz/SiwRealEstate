@@ -68,7 +68,22 @@
             <div class="text-danger small" th:if="${#fields.hasErrors('client')}"
                  th:errors="*{client}"></div>
         </div>
-
+		
+		<!-- ========= AGENTE ========= -->
+		<div class="col-md-6">
+		    <label for="agentId" class="form-label">Agente</label>
+		    <select id="agentId" name="agentId" class="form-select" required>
+		        <option value="" disabled selected>Scegli un agente…</option>
+		        <option th:each="a : ${agents}"
+		                th:value="${a.id}"
+		                th:text="${a.name + ' ' + a.surname}">
+		        </option>
+		    </select>
+		    <div class="text-danger small"
+		         th:if="${#fields.hasErrors('agent')}"
+		         th:errors="*{agent}"></div>
+		</div>
+		
         <!-- ========= DATA INIZIO ========= -->
         <div class="col-md-4">
             <label for="startDate" class="form-label">Data inizio</label>
