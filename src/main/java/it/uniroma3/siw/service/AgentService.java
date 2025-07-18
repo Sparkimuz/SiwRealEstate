@@ -6,10 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.model.Agent;
+import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.repository.AgentRepository;
+import it.uniroma3.siw.repository.UserRepository;
 
 @Service
 public class AgentService {
+	@Autowired
+    private UserRepository userRepository; 
 	
 	@Autowired 
 	private AgentRepository agentRepository;
@@ -32,6 +36,10 @@ public class AgentService {
 	}
 	
 	public void remove(Agent a) {
+		User u = userRepository.findByAgentId(a.getId());
+		if (u != null) {
+		    u.setAgent(null);
+		}
 		agentRepository.delete(a);
 	}
 

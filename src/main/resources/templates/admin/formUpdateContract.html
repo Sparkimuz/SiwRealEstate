@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica contratto</title>
+
+    <!-- Bootstrap & stile custom -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="fragments/header :: header"></header>
+
+<main class="container py-4 flex-grow-1">
+<section class="container py-4">
+
+    <h2 class="mb-4 text-center">Modifica contratto</h2>
+	<form th:object="${contract}"
+	      th:action="@{${isAdmin} ? '/admin/formUpdateContract/' + ${contract.id} : '/agent/formUpdateContract/' + ${contract.id}}"
+	      method="post"
+	      class="row g-3">
+		  
+		  <!--ID-->
+		  <input type="hidden" th:field="*{id}"/>
+		  <!-- IMMOBILE ---------------------------------------------------------->
+		  <label class="form-label">Proprietà:</label>
+		  <select class="form-select" th:field="*{property}" required>
+		      <!-- placeholder solo se non c’è già un immobile -->
+		      <option value="" th:if="${contract.property == null}" disabled selected>
+		          Scegli un immobile…
+		      </option>
+	
+		      <option th:each="p : ${properties}"
+		              th:value="${p.id}"                       
+		              th:text="${p.address + ' – ' + p.city}">
+		      </option>
+		  </select>
+	
+		  <!-- CLIENTE ---------------------------------------------------------->
+		  <label class="form-label">Cliente:</label>
+		  <select class="form-select" th:field="*{client}" required>
+		      <option value="" th:if="${contract.client == null}" disabled selected>
+		          Scegli un cliente…
+		      </option>
+	
+		      <option th:each="c : ${clients}"
+		              th:value="${c.id}"                       
+		              th:text="${c.name + ' ' + c.surname}">
+		      </option>
+		  </select>
+	
+		  <!-- AGENTE (solo per admin) ----------------------------------------->
+		  <label class="form-label">Agente:</label>
+		  <select class="form-select" th:if="${isAdmin}" th:field="*{agent}" required>
+		      <option value="" th:if="${contract.agent == null}" disabled selected>
+		          Scegli un agente…
+		      </option>
+	
+		      <option th:each="a : ${agents}"
+		              th:value="${a.id}"                       
+		              th:text="${a.name + ' ' + a.surname}">
+		      </option>
+		  </select>
+	
+	    <!-- DATE & PREZZO -------------------------------------------------->
+	    <div class="col-md-4">
+	        <label class="form-label">Data inizio:</label>
+	        <input type="date" class="form-control" th:field="*{startDate}" required>
+	        <div class="text-danger small" th:errors="*{startDate}"></div>
+	    </div>
+	
+	    <div class="col-md-4">
+	        <label class="form-label">Data fine:</label>
+	        <input type="date" class="form-control" th:field="*{finalDate}" required>
+	        <div class="text-danger small" th:errors="*{finalDate}"></div>
+	    </div>
+	
+	    <div class="col-md-4">
+	        <label class="form-label">Prezzo finale (€)</label>
+	        <input type="number" step="1000" min="0" class="form-control"
+	               th:field="*{finalPrice}" required>
+	        <div class="text-danger small" th:errors="*{finalPrice}"></div>
+	    </div>
+	
+	    <!-- PULSANTI ------------------------------------------------------->
+	    <div class="col-12 d-flex justify-content-end gap-2">
+	        <a th:href="@{${isAdmin} ? '/admin/contracts' : '/agent/contracts'}"
+	           class="btn btn-secondary">Annulla</a>
+	        <button type="submit" class="btn btn-primary">Salva modifiche</button>
+	    </div>
+	</form>
+	
+</section>
+</main>
+
+<footer class="mt-auto" th:replace="fragments/footer :: footer"></footer>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

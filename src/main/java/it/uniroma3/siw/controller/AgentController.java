@@ -55,7 +55,7 @@ public class AgentController {
     EntityManager entityManager;
 
     @GetMapping(value = "/agent/{id}")
-    public String getSupplier(@PathVariable("id") Long id, Model model) {
+    public String getAgent(@PathVariable("id") Long id, Model model) {
         model.addAttribute("agent", this.agentService.findById(id));
         return "agent.html";
     }
@@ -67,10 +67,10 @@ public class AgentController {
     }
 
     @PostMapping(value = "/formSearchAgent")
-    public String getSupplier(@RequestParam String name, Model model) {
+    public String getAgent(@RequestParam String name, Model model) {
         List<Agent> agents = this.agentRepository.findAgents(name);
         model.addAttribute("agents", agents);
-        return "suppliers.html";
+        return "agents.html";
     }
 
     @GetMapping(value = "/admin/formNewAgent")
@@ -80,13 +80,13 @@ public class AgentController {
         return "admin/formNewAgent.html";
     }
 
-    @PostMapping(value = "/sup")
+    @PostMapping(value = "/agent")
     public String newAgent(@Valid @ModelAttribute("agent") Agent agent,
                            @RequestParam("immagine") MultipartFile file,
-                           BindingResult supplierBindingResult,
+                           BindingResult agentBindingResult,
                            Model model) {
-        this.agentValidator.validate(agent, supplierBindingResult);
-        if (!supplierBindingResult.hasErrors()) {
+        this.agentValidator.validate(agent, agentBindingResult);
+        if (!agentBindingResult.hasErrors()) {
             try {
                 String fileName = StringUtils.cleanPath(file.getOriginalFilename());
                 Path path = Paths.get(UPLOAD_DIR + File.separator + fileName);
@@ -128,13 +128,6 @@ public class AgentController {
     }
 
     @GetMapping(value = "/admin/removeAgent/{id}")
-    public String removeSupplier(@PathVariable("id") Long id) {
-        Agent a = this.agentService.findById(id);
-        this.agentService.remove(a);
-        return "redirect:/admin/manageAgents";
-    }
-    
-    @PostMapping("/admin/removeAgent/{id}")
     public String removeAgent(@PathVariable("id") Long id) {
         Agent a = this.agentService.findById(id);
         this.agentService.remove(a);

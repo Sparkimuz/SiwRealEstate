@@ -153,4 +153,79 @@ public class ContractController {
         }
         return "error/403.html";
     }
+    
+    @GetMapping("/admin/formUpdateContract/{id}")
+    public String formEditContractAdmin(@PathVariable Long id, Model model) {
+        Contract ct = contractService.findById(id);
+
+        model.addAttribute("contract", ct);
+        model.addAttribute("properties", propertyService.findAll());
+        model.addAttribute("clients",    clientService.findAll());
+        model.addAttribute("agents",     agentService.findAll());
+        
+        model.addAttribute("isAdmin", true);
+        return "admin/formUpdateContract.html";
+    }
+
+    // salvataggio
+    @PostMapping("/admin/formUpdateContract/{id}")
+    public String formUpdateContractAdmin(@PathVariable Long id,
+                                    @Valid @ModelAttribute Contract contract,
+                                    BindingResult bindingResult,
+                                    Model model) {
+
+        if (bindingResult.hasErrors()) {             // torni al form con liste
+            model.addAttribute("properties", propertyService.findAll());
+            model.addAttribute("clients",    clientService.findAll());
+            model.addAttribute("agents",     agentService.findAll());
+            model.addAttribute("isAdmin", true);
+            return "admin/formUpdateContract.html";
+        }
+
+        contractService.save(contract);
+        model.addAttribute("isAdmin", true);
+        return "redirect:/admin/contracts";
+    }
+
+    /* ----------  AGENTE  ---------- */
+
+    @GetMapping("/agent/formUpdateContract/{id}")
+    public String formEditContractAgent(@PathVariable Long id, Model model) {
+        Contract ct = contractService.findById(id);
+        Agent me   = credentialsService
+                        .getCredentials(SecurityContextHolder.getContext().getAuthentication().getName())
+                        .getUser().getAgent();
+
+        if (!ct.getAgent().equals(me))               // blocco accessi indebiti
+            return "error/403.html";
+
+        model.addAttribute("contract", ct);
+        model.addAttribute("properties", propertyService.findByAgent(me));
+        model.addAttribute("clients",    clientService.findAll());
+        model.addAttribute("isAdmin", false);
+        return "agent/formUpdateContract.html";
+    }
+
+    @PostMapping("/agent/formUpdateContract/{id}")
+    public String formUpdateContract(@PathVariable Long id,
+                                    @Valid @ModelAttribute Contract contract,
+                                    BindingResult bindingResult,
+                                    Model model) {
+
+        Agent me = credentialsService
+                     .getCredentials(SecurityContextHolder.getContext().getAuthentication().getName())
+                     .getUser().getAgent();
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("properties", propertyService.findByAgent(me));
+            model.addAttribute("clients",    clientService.findAll());
+            model.addAttribute("isAdmin", false);
+            return "agent/formUpdateContract.html";
+        }
+        contract.setAgent(me);
+        
+        contractService.save(contract);
+        model.addAttribute("isAdmin", false);
+        return "redirect:/agent/contracts";
+    }
 }

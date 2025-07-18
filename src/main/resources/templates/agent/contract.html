@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title th:text="'Contratto #' + ${contract.id} + ' – SIW Real Estate'">Dettaglio contratto</title>
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+
+<section class="bg-light py-3">
+    <div class="container">
+        <a th:href="@{/agent/contracts}" class="btn btn-outline-secondary">
+            &larr; Torna ai contratti
+        </a>
+    </div>
+</section>
+
+<!-- il resto è identico alla versione admin -->
+<section class="py-5 bg-white border-bottom">
+    <div class="container text-center">
+        <h1 class="display-5 mb-2"
+            th:text="'Contratto #' + ${contract.id}">Contratto #1</h1>
+        <p class="mb-0">
+            <span th:with="today=${T(java.time.LocalDate).now()}"
+                  th:switch="${true}">
+                <span th:case="${contract.startDate <= today and contract.finalDate >= today}"
+                      class="badge bg-success">Attivo</span>
+                <span th:case="${contract.finalDate < today}"
+                      class="badge bg-secondary">Scaduto</span>
+                <span th:case="*"
+                      class="badge bg-warning text-dark">In arrivo</span>
+            </span>
+        </p>
+    </div>
+</section>
+
+<!-- ri-usa esattamente lo stesso corpo -->
+<section th:replace="~{admin/contract :: body}"></section>
+<!-- Se preferisci, copia pari-pari il <section class="container py-5"> della pagina admin -->
+
+<footer th:replace="fragments/footer :: footer"></footer>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

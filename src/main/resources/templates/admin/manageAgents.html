@@ -36,13 +36,20 @@
                 <span th:text="${#temporals.format(agent.birthdate, 'dd/MM/yyyy')}">01/01/1980</span>
             </p>
 
-            <div class="mt-auto d-flex gap-2">
-                <a th:href="@{/admin/editAgent/{id}(id=${agent.id})}" class="btn btn-outline-warning">Modifica</a>
-                <form th:action="@{/admin/removeAgent/{id}(id=${agent.id})}" method="post"
-                      onsubmit="return confirm('Sei sicuro di voler eliminare questo agente?');">
-                    <button type="submit" class="btn btn-outline-danger">Elimina</button>
-                </form>
-            </div>
+			<div class="mt-auto d-flex gap-2">
+			    <a th:href="@{/admin/editAgent/{id}(id=${agent.id})}"
+			       class="btn btn-outline-warning d-flex align-items-center gap-1">
+			        Modifica
+			    </a>
+
+			    <!-- Elimina con GET, identico a manageProperties -->
+			    <a th:href="@{/admin/removeAgent/{id}(id=${agent.id})}"
+			       class="btn btn-outline-danger d-flex align-items-center gap-1"
+			       onclick="return confirm('Sei sicuro di voler eliminare questo agente?');">
+			        <i class="fa fa-trash"></i>
+			        Elimina
+			    </a>
+			</div>
         </div>
     </div>
 </section>
