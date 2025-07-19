@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica agente</title>
+
+    <!-- Bootstrap + stile custom -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+
+<section class="container py-4">
+    <h2 class="mb-4 text-center">Modifica agente</h2>
+
+	<form th:object="${agent}"
+	      th:action="@{/admin/formUpdateAgent/{id}(id=${agent.id})}"
+	      method="post"
+	      enctype="multipart/form-data"
+	      class="row g-3">
+
+        <!-- errori globali -->
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger col-12">
+            Correggi gli errori evidenziati.
+        </div>
+
+        <!-- id nascosto -->
+        <input type="hidden" th:field="*{id}"/>
+
+        <!-- ====== NOME ====== -->
+        <div class="col-md-6">
+            <label class="form-label">Nome</label>
+            <input type="text" class="form-control" th:field="*{name}">
+            <div th:errors="*{name}" class="text-danger small"></div>
+        </div>
+
+        <!-- ====== COGNOME ====== -->
+        <div class="col-md-6">
+            <label class="form-label">Cognome</label>
+            <input type="text" class="form-control" th:field="*{surname}">
+            <div th:errors="*{surname}" class="text-danger small"></div>
+        </div>
+
+        <!-- ====== DATA DI NASCITA ====== -->
+        <div class="col-md-6">
+            <label class="form-label">Data di nascita</label>
+            <input type="date" class="form-control" th:field="*{birthdate}">
+            <div th:errors="*{birthdate}" class="text-danger small"></div>
+        </div>
+
+        <!-- ====== SEDE (RE) ====== -->
+        <div class="col-md-6">
+            <label class="form-label">Sede di lavoro</label>
+            <select class="form-select" name="agencyId" required>
+                <option value="" disabled>Scegli una sede…</option>
+                <option th:each="a : ${agencies}"
+                        th:value="${a.id}"
+                        th:selected="${agent.realEstateAgency != null and a.id == agent.realEstateAgency.id}"
+                        th:text="${a.city + ' – ' + a.address}">
+                </option>
+            </select>
+        </div>
+
+        <!-- ====== FOTO (opzionale) ====== -->
+        <div class="col-md-6">
+            <label class="form-label">Nuova foto (opzionale)</label>
+            <input type="file" name="immagine" class="form-control" accept="image/*">
+        </div>
+
+        <!-- ====== PULSANTI ====== -->
+        <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+            <a th:href="@{/admin/manageAgents}" class="btn btn-secondary">Annulla</a>
+            <button type="submit" class="btn btn-primary">Salva modifiche</button>
+        </div>
+    </form>
+</section>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

@@ -107,8 +107,8 @@ public class RealEstateAgencyController {
         return "admin/formUpdateAgency.html";
     }
 
-    @PostMapping("/admin/updateRealEstateAgency")
-    public String updateAgency(@Valid @ModelAttribute("agency") RealEstateAgency agency,
+    @PostMapping("/admin/formUpdateRealEstateAgency")
+    public String formUpdateAgency(@Valid @ModelAttribute("agency") RealEstateAgency agency,
                                BindingResult bindingResult,
                                @RequestParam("immagine") MultipartFile file,
                                Model model) {

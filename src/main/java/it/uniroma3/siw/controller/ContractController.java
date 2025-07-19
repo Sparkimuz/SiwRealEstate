@@ -26,11 +26,11 @@ public class ContractController {
 
     // --- ADMIN ROUTES ---
 
-    @GetMapping("/admin/contracts")
+    @GetMapping("/admin/manageContracts")
     public String listAllContractsAdmin(Model model) {
         List<Contract> contracts = this.contractService.findAll();
         model.addAttribute("contracts", contracts);
-        return "admin/contracts.html";
+        return "admin/manageContracts.html";
     }
 
     @GetMapping("/admin/contract/{id}")
@@ -77,12 +77,12 @@ public class ContractController {
     public String removeContractAdmin(@PathVariable Long id) {
         Contract ct = this.contractService.findById(id);
         this.contractService.delete(ct);
-        return "redirect:/admin/contracts";
+        return "redirect:/admin/manageContracts";
     }
 
     // --- AGENT ROUTES ---
 
-    @GetMapping("/agent/contracts")
+    @GetMapping("/agent/manageContracts")
     public String listContractsAgent(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
@@ -90,7 +90,7 @@ public class ContractController {
 
         List<Contract> contracts = this.contractService.findByAgent(me);
         model.addAttribute("contracts", contracts);
-        return "agent/contracts.html";
+        return "agent/manageContracts.html";
     }
 
     @GetMapping("/agent/contract/{id}")
@@ -149,7 +149,7 @@ public class ContractController {
         Agent me = this.credentialsService.getCredentials(auth.getName()).getUser().getAgent();
         if (ct.getAgent().equals(me)) {
             this.contractService.delete(ct);
-            return "redirect:/agent/contracts";
+            return "redirect:/agent/manageContracts";
         }
         return "error/403.html";
     }
@@ -184,7 +184,7 @@ public class ContractController {
 
         contractService.save(contract);
         model.addAttribute("isAdmin", true);
-        return "redirect:/admin/contracts";
+        return "redirect:/admin/manageContracts";
     }
 
     /* ----------  AGENTE  ---------- */
@@ -226,6 +226,6 @@ public class ContractController {
         
         contractService.save(contract);
         model.addAttribute("isAdmin", false);
-        return "redirect:/agent/contracts";
+        return "redirect:/agent/manageContracts";
     }
 }
