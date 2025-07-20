@@ -5,17 +5,19 @@
 html, body {
   height: 100%;
   margin: 0;
-  display: flex;
-  flex-direction: column;
 }
 
 body {
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;          
 }
 
-body > section:nth-of-type(2) {
-  flex: 1;
+main {                         
+  flex: 1 0 auto;             
 }
+
+
 
 :root {
   --primary-color: #2c3e50;
@@ -113,6 +115,30 @@ body {
   border-color: var(--danger-color);
 }
 
+.hero-section {
+    background-image: url('/images/sfondo.jpg'); 
+    background-size: cover;
+    background-position: center;
+    min-height: 500px;
+    position: relative;
+    color: white;
+    z-index: 0;
+}
+
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 1;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+
 /* ------------------------------------------------------------------
    NAVBAR & FOOTER
 ------------------------------------------------------------------ */
@@ -141,7 +167,13 @@ footer.footer-custom a {
 footer.footer-custom a:hover {
   color: #ffffff;
 }
-
+footer.footer-custom {
+  flex-shrink: 0;             
+  margin-top: auto;        
+  background-color: var(--primary-color);
+  color: var(--light-color);
+  padding: 2rem 0;
+}
 
 /* Form personalizzati */
 .form-control:focus {

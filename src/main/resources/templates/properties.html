@@ -24,7 +24,7 @@
         </a>
 
         <!-- nuova ricerca -->
-        <form class="flex-grow-1" th:action="@{/property/search}" method="get">
+        <form class="flex-grow-1" th:action="@{/formSearchProperty}" method="get">
             <div class="input-group">
                 <input type="text" class="form-control" name="city"
                        th:value="${param.city}" placeholder="Cerca un'altra città…" required>

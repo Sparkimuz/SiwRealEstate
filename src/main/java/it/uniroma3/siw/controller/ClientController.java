@@ -72,7 +72,7 @@ public class ClientController {
     @GetMapping("/agent/manageClients")
     public String manageClientsByAgent(Model model) {
     	model.addAttribute("clients", this.clientService.findAll());
-        return "agent/manageClients.html";
+        return "agent/formNewContrct.html";
     }
 
     @GetMapping("/agent/removeClient/{id}")

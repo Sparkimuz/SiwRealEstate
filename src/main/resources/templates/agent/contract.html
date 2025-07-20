@@ -13,7 +13,7 @@
 
 <section class="bg-light py-3">
     <div class="container">
-        <a th:href="@{/agent/contracts}" class="btn btn-outline-secondary">
+        <a th:href="@{/agent/manageContracts}" class="btn btn-outline-secondary">
             &larr; Torna ai contratti
         </a>
     </div>
@@ -39,7 +39,99 @@
 </section>
 
 <!-- ri-usa esattamente lo stesso corpo -->
-<section th:replace="~{admin/contract :: body}"></section>
+<section class="container py-5">
+
+    <!-- === Proprietà === -->
+    <div class="card mb-4 shadow-sm">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img th:if="${contract.property.urlImage != null}"
+                     th:src="@{/images/{img}(img=${contract.property.urlImage})}"
+                     class="img-fluid h-100 w-100 object-fit-cover" alt="Immobile">
+                <img th:if="${contract.property.urlImage == null}"
+                     th:src="@{/images/property-placeholder.jpg}"
+                     class="img-fluid h-100 w-100 object-fit-cover" alt="Immobile">
+            </div>
+            <div class="col-md-8 p-4">
+                <h4 class="mb-1" th:text="${contract.property.address}">Via Roma 123</h4>
+                <p class="mb-0 text-muted" th:text="${contract.property.city}">Roma</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- === Cliente === -->
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Cliente</h5>
+                    <p class="mb-0 fs-5"
+                       th:text="${contract.client.name + ' ' + contract.client.surname}">
+                        Mario Rossi
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- === Agente === -->
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="row g-0 h-100">
+                    <div class="col-4">
+                        <img th:if="${contract.agent.urlImage != null}"
+                             th:src="@{/images/{img}(img=${contract.agent.urlImage})}"
+                             class="img-fluid h-100 w-100 object-fit-cover rounded-start"
+                             alt="Agente">
+                        <img th:if="${contract.agent.urlImage == null}"
+                             th:src="@{/images/agent-placeholder.jpg}"
+                             class="img-fluid h-100 w-100 object-fit-cover rounded-start"
+                             alt="Agente">
+                    </div>
+                    <div class="col-8 p-3 d-flex align-items-center">
+                        <p class="mb-0 fs-5"
+                           th:text="${contract.agent.name + ' ' + contract.agent.surname}">
+                            Laura Bianchi
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- === Dati contratto === -->
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Dettagli contratto</h5>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <strong>Inizio:</strong><br>
+                            <span th:text="${#temporals.format(contract.startDate,'dd/MM/yyyy')}">
+                                01/02/2025
+                            </span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <strong>Fine:</strong><br>
+                            <span th:text="${#temporals.format(contract.finalDate,'dd/MM/yyyy')}">
+                                31/01/2026
+                            </span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <strong>Prezzo:</strong><br>
+                            <span th:text="${#numbers.formatDecimal(contract.finalPrice,0,'POINT',2,'COMMA')} + ' €'">
+                                250 000 €
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- eventuali note future -->
+                    <!-- <p class="mt-3"><strong>Note:</strong> …</p> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <!-- Se preferisci, copia pari-pari il <section class="container py-5"> della pagina admin -->
 
 <footer th:replace="fragments/footer :: footer"></footer>

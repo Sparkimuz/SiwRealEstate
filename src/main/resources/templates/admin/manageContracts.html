@@ -25,14 +25,14 @@
     <!-- Barra azioni -->
     <div class="d-flex flex-column flex-md-row gap-3 justify-content-between mb-4">
 
-        <!-- Ricerca veloce -->
+<!--         Ricerca veloce 
         <div class="input-group flex-grow-1">
             <span class="input-group-text">
                 <i class="bi bi-search"></i>
             </span>
             <input id="quickSearch" type="text" class="form-control"
                    placeholder="Cerca per immobile, cliente, agente…">
-        </div>
+        </div>-->
 
         <!-- Nuovo contratto -->
         <a th:href="@{/admin/formNewContract}"
@@ -52,7 +52,6 @@
                class="table table-hover align-middle">
             <thead class="table-primary">
             <tr>
-                <th scope="col">#ID</th>
                 <th scope="col">Immobile</th>
                 <th scope="col">Cliente</th>
                 <th scope="col">Agente</th>
@@ -68,7 +67,6 @@
             <tr th:each="contract : ${contracts}"
                 th:onclick="|window.location.href='@{/admin/contract/{id}(id=${contract.id})}'|"
                 style="cursor:pointer;">
-                <th scope="row" th:text="${contract.id}">1</th>
 
                 <td th:text="${contract.property != null ? contract.property.address + ' – ' + contract.property.city : '—'}">Via Roma 123</td>
 

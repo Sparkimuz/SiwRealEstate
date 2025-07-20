@@ -65,12 +65,7 @@
                     </p>
 
                     <div class="mt-auto d-flex gap-2">
-                        <!-- Modifica -->
-                        <a class="btn btn-outline-secondary d-flex align-items-center gap-1" title="Modifica"
-                           th:href="@{'/admin/formUpdateProperty/' + ${property.id}}">
-                            <span class="material-symbols-outlined">edit</span>
-                            Modifica
-                        </a>
+
                         <!-- Elimina -->
                         <a class="btn btn-outline-danger d-flex align-items-center gap-1" title="Elimina"
                            th:href="@{'/deleteProperty/' + ${property.id}}">
