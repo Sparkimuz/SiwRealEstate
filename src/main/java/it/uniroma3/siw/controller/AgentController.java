@@ -28,6 +28,7 @@ import it.uniroma3.siw.model.User;
 import it.uniroma3.siw.repository.AgentRepository;
 import it.uniroma3.siw.service.AgentService;
 import it.uniroma3.siw.service.CredentialsService;
+import it.uniroma3.siw.service.PropertyService;
 import it.uniroma3.siw.service.RealEstateAgencyService;
 import it.uniroma3.siw.validator.AgentValidator;
 import jakarta.persistence.EntityManager;
@@ -36,8 +37,10 @@ import jakarta.validation.Valid;
 @Controller
 public class AgentController {
 
-	//private static final String UPLOAD_DIR = "C:\\Users\\tcenc\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";
-	private static final String UPLOAD_DIR = "C:\\Users\\andre\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";
+    private final PropertyService propertyService;
+
+	private static final String UPLOAD_DIR = "C:\\Users\\tcenc\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";
+	//private static final String UPLOAD_DIR = "C:\\Users\\andre\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";
 	@Autowired
 	AgentService agentService;
 
@@ -58,6 +61,10 @@ public class AgentController {
 
 	@Autowired
 	EntityManager entityManager;
+
+    AgentController(PropertyService propertyService) {
+        this.propertyService = propertyService;
+    }
 
 	@GetMapping(value = "/agent/{id}")
 	public String getAgent(@PathVariable("id") Long id, Model model) {
@@ -128,7 +135,7 @@ public class AgentController {
 		Credentials credenziali = this.credentialsService.getCredentials(username);
 		User currentUser = credenziali.getUser();
 		Agent currentAgent = currentUser.getAgent();
-		model.addAttribute("properties", currentAgent.getProperties());
+		model.addAttribute("properties", this.propertyService.findAllAvailableByAgent(currentAgent));
 		return "agent/manageProperties.html";
 	}
 

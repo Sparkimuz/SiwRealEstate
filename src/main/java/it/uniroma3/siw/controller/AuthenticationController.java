@@ -36,8 +36,8 @@ import jakarta.validation.Valid;
 @Controller
 public class AuthenticationController {
 
-    private static final String UPLOAD_DIR = "C:\\Users\\andre\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";
-    //private static final String UPLOAD_DIR = "C:\\Users\\tcenc\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";
+    //private static final String UPLOAD_DIR = "C:\\Users\\andre\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";
+    private static final String UPLOAD_DIR = "C:\\Users\\tcenc\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";
 
     @Autowired private CredentialsService credentialsService;
     @Autowired private UserService        userService;

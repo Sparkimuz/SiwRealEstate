@@ -38,8 +38,8 @@ import jakarta.validation.Valid;
 @Controller
 public class PropertyController {
 
-    private static final String UPLOAD_DIR = "C:\\Users\\andre\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";		
-	//private static final String UPLOAD_DIR= "C:\\\\Users\\\\tcenc\\\\Documents\\\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\\\SiwRealEstate\\\\src\\\\main\\\\resources\\\\static\\\\images";
+    //private static final String UPLOAD_DIR = "C:\\Users\\andre\\Documents\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\SiwRealEstate\\src\\main\\resources\\static\\images";		
+	private static final String UPLOAD_DIR= "C:\\\\Users\\\\tcenc\\\\Documents\\\\workspace-spring-tools-for-eclipse-4.30.0.RELEASE\\\\SiwRealEstate\\\\src\\\\main\\\\resources\\\\static\\\\images";
 
 
 	@Autowired
@@ -99,7 +99,7 @@ public class PropertyController {
 	
 	@GetMapping(value = "/properties")
 	public String showProperties(Model model) {
-		model.addAttribute("properties", this.propertyService.findAll());
+		model.addAttribute("properties", this.propertyService.findAllAvailable());
 		return "properties.html";
 	}
 	
@@ -107,18 +107,11 @@ public class PropertyController {
 	
 	@GetMapping(value = "/formSearchProperty")
 	public String formSearchProperty(String city, Model model) {
-		List<Property> properties = propertyService.findAllByCity(city);
+		List<Property> properties = propertyService.findAllAvailableByCity(city);
 	    model.addAttribute("properties", properties);
 	    model.addAttribute("city", city);
 		return "formSearchProperty.html";
 	}
-
-	/*@PostMapping(value = "/formSearchProperty")
-	public String getPropertyByCity(@RequestParam String city, Model model) {
-		List<Property> properties =this.propertyRepository.findByCity(city);
-		model.addAttribute("property", properties);
-		return "property.html";
-	}*/
 
 	@GetMapping(value = "/agent/addProperty")
 	public String formNewProperty(Model model) {
@@ -130,7 +123,7 @@ public class PropertyController {
 	@GetMapping("/deleteProperty/{id}")
 	public String deleteProperty(@PathVariable("id") Long id, Model model) {
 		this.propertyService.deleteById(id);
-		model.addAttribute("properties", this.propertyService.findAll());
+		model.addAttribute("properties", this.propertyService.findAllAvailable());
 		return "properties.html";
 	}
 	

@@ -42,7 +42,7 @@ public class ContractController {
     @GetMapping("/admin/formNewContract")
     public String formNewContractAdmin(Model model) {
         model.addAttribute("contract", new Contract());
-        model.addAttribute("properties", this.propertyService.findAll());
+        model.addAttribute("properties", this.propertyService.findAllAvailable());
         model.addAttribute("clients", this.clientService.findAll());
         model.addAttribute("agents", this.agentService.findAll());
         return "admin/formNewContract.html";
