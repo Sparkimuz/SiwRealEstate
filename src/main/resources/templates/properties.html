@@ -37,9 +37,12 @@
 <!-- ===== elenco proprietà ===== -->
 <section class="container py-5">
 
-    <h2 class="mb-4" th:text="'Proprietà trovate per &quot;' + ${param.city} + '&quot;'">
-        Proprietà trovate
-    </h2>
+	<h2 class="mb-4"
+	    th:text="${#strings.isEmpty(param.city) 
+	              ? 'Proprietà in vendita' 
+	              : 'Proprietà trovate a &quot;' + param.city + '&quot;'}">
+	    Proprietà in vendita
+	</h2>
 
     <!-- caso: nessun risultato -->
     <div th:if="${#lists.isEmpty(properties)}" class="alert alert-warning">
