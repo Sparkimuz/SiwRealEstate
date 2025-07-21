@@ -29,9 +29,11 @@
         <!-- immagine profilo -->
         <div class="col-md-4">
             <img th:if="${agent.urlImage != null}"
-                 th:src="${agent.urlImage}" class="img-fluid rounded shadow-sm" alt="Foto profilo">
+				th:src="@{/images/{img}(img=${agent.urlImage})}"
+				class="img-fluid h-100 w-100 object-fit-cover" alt="Foto agente">
             <img th:if="${agent.urlImage == null}"
-                 th:src="@{/images/agent-placeholder.jpg}" class="img-fluid rounded shadow-sm" alt="Foto profilo">
+				th:src="@{/images/agent-placeholder.jpg}"
+				class="img-fluid h-100 w-100 object-fit-cover" alt="Foto agente">
         </div>
 
         <!-- info -->

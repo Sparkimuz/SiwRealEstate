@@ -38,7 +38,7 @@
         <!-- foto profilo -->
         <div class="col-md-3">
             <img th:if="${agent.urlImage != null}"
-                 th:src="@{'/uploads/' + ${agent.urlImage}}"
+			th:src="@{/images/{img}(img=${agent.urlImage})}"
                  class="img-fluid h-100 w-100 object-fit-cover" alt="Foto agente">
             <img th:if="${agent.urlImage == null}"
                  th:src="@{/images/agent-placeholder.jpg}"
