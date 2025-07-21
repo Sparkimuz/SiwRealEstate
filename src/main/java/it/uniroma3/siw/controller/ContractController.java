@@ -112,7 +112,7 @@ public class ContractController {
         Agent me = this.credentialsService.getCredentials(auth.getName()).getUser().getAgent();
 
         model.addAttribute("contract", new Contract());
-        model.addAttribute("properties", this.propertyService.findByAgent(me));
+        model.addAttribute("properties", this.propertyService.findAllAvailableByAgent(me));
         model.addAttribute("clients", this.clientService.findAll());
         return "agent/formNewContract.html";
     }
