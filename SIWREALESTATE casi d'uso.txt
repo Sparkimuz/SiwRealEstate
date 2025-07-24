@@ -1,0 +1,72 @@
+CASI D’USO – UTENTE GENERICO
+attore primario e finale: Utente generico
+
+UC1 – Visualizzare elenco e dettaglio clienti
+L’utente generico vuole esplorare i clienti.
+Clicca su “Clienti”: può scorrere la lista o utilizzare il filtro per nome.
+Seleziona un cliente e visualizza i dettagli (nome, cognome, contatti).
+
+UC2 – Ricercare clienti
+L’utente generico vuole trovare un cliente per nome.
+Clicca su “Clienti”, inserisce il nome nel campo di ricerca e ottiene l’elenco dei clienti corrispondenti con link ai dettagli.
+
+UC3 – Visualizzare elenco e dettaglio agenzie
+L’utente generico vuole esplorare le agenzie immobiliari.
+Clicca su “Agenzie”: sfoglia la lista o cerca per nome.
+Seleziona un’agenzia e visualizza i dettagli (descrizione, immagine, agenti associati).
+
+UC4 – Visualizzare elenco immobili disponibili
+L’utente generico vuole vedere gli immobili disponibili.
+Clicca su “Immobili”: visualizza la lista paginata di proprietà con anteprime delle immagini e prezzi.
+
+UC5 – Visualizzare dettaglio immobile
+L’utente generico seleziona un immobile dall’elenco e visualizza la pagina di dettaglio (foto, descrizione, prezzo, agente di riferimento e stato di disponibilità).
+
+UC6 – Ricercare immobili per città
+L’utente generico vuole trovare immobili in una città specifica.
+Clicca su “Cerca Immobili”, inserisce il nome della città e ottiene la lista degli immobili disponibili in quella località.
+
+---
+
+CASI D’USO – AGENTE
+attore primario e finale: Agente
+
+UC1 – Gestire contratti
+L’agente vuole amministrare i propri contratti.
+Clicca su “I miei contratti”: visualizza la lista; seleziona un contratto per vederne i dettagli.
+Per creare, clicca su “Nuovo”, compila data, durata, importo, proprietà (tra le proprie) e cliente.
+Per modificare, clicca su “Modifica”, aggiorna i campi e salva.
+Per eliminare, clicca su “Elimina” e conferma.
+
+UC2 – Gestire clienti
+L’agente vuole aggiungere o eliminare clienti.
+Clicca su “Nuovo Cliente”, compila nome, cognome e contatti, e salva.
+Per eliminare, entra in “Clienti”, seleziona un cliente e clicca su “Elimina” con conferma.
+
+UC3 – Gestire immobili
+L’agente vuole amministrare i propri immobili.
+Clicca su “I miei immobili”: visualizza la lista; seleziona un immobile per dettagli.
+Per aggiungere, clicca su “Nuovo”, inserisci indirizzo, descrizione, prezzo e carica le immagini.
+Per modificare, clicca su “Modifica”; per eliminare, su “Elimina” e conferma.
+
+---
+
+CASI D’USO – AMMINISTRATORE
+attore primario e finale: Amministratore
+
+UC1 – Gestire contratti
+L’amministratore vuole amministrare tutti i contratti.
+Clicca su “Gestisci Contratti”: visualizza l’elenco completo; seleziona un contratto per dettagli.
+Per creare, clicca su “Nuovo”, compila proprietà, cliente e agente; per modificare, su “Modifica”; per eliminare, su “Elimina” e conferma.
+
+UC2 – Gestire clienti
+L’amministratore vuole amministrare i clienti.
+Clicca su “Gestisci Clienti”: visualizza l’elenco; crea un nuovo cliente con “Nuovo” compilando i dati; elimina con “Elimina” e conferma.
+
+UC3 – Gestire agenzie
+L’amministratore vuole amministrare le agenzie immobiliari.
+Clicca su “Gestisci Agenzie”: visualizza la lista; crea con “Nuova Agenzia” inserendo nome, indirizzo, descrizione e immagine; modifica con “Modifica”; elimina con “Elimina” e conferma.
+
+UC4 – Gestire immobili
+L’amministratore vuole amministrare tutti gli immobili.
+Clicca su “Gestisci Immobili”: visualizza l’elenco completo; crea con “Nuovo Immobile” inserendo dati e immagini; modifica con “Modifica”; elimina con “Elimina” e conferma.
